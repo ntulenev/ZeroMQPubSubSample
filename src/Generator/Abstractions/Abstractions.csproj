@@ -11,4 +11,8 @@
     <AssemblyName>ZeroMQPubSubSample.Generator.Abstractions</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Models\Models.csproj" />
+  </ItemGroup>
+
 </Project>
