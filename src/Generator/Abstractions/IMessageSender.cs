@@ -7,6 +7,6 @@ namespace ZeroMQPubSubSample.Generator.Abstractions
 {
     public interface IMessageSender
     {
-        public Task SendMessageAsync(Message message, CancellationToken ct);
+        public void SendMessage(TargetedMessage message);
     }
 }
