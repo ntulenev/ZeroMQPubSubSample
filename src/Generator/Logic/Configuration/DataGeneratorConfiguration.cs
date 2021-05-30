@@ -7,5 +7,7 @@ namespace ZeroMQPubSubSample.Generator.Logic.Configuration
         public TimeSpan GenerationPeriodSeconds { get; set; }
 
         public long TaskId { get; set; }
+
+        public string Destination { get; set; } = default!;
     }
 }
