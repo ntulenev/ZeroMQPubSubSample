@@ -3,5 +3,5 @@
     /// <summary>
     /// Represents example message
     /// </summary>
-    public record Message(long Key, string Value, string Destination);
+    public record Message(long Key, string Value);
 }
