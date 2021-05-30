@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ZeroMQPubSubSample.Common.Models;
@@ -16,5 +17,7 @@ namespace ZeroMQPubSubSample.Generator.Abstractions
         /// <param name="message">Message.</param>
         /// <param name="ct">Cancellation token.</param>
         public ValueTask WriteAsync(TargetedMessage message, CancellationToken ct);
+
+        public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken cancellationToken = default);
     }
 }
