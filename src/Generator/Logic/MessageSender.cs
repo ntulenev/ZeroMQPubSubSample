@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -47,7 +48,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _logger.LogInformation("MessageSender created.");
         }
 
-        public void SendMessage(Domain.TargetedMessage message)
+        public async Task SendMessageAsync(Domain.TargetedMessage message, CancellationToken ct)
         {
             if (message is null)
             {
@@ -58,7 +59,13 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             var data = Serialize(message);
 
-            _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
+            var sendTask = Task.Run(() => _pubSocket.SendMoreFrame(message.Destination).SendFrame(data), ct);
+
+            TaskCompletionSource cancelTaskSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            ct.Register(cancelTaskSource.SetResult);
+
+            await Task.WhenAny(cancelTaskSource.Task, sendTask);
         }
 
         private static string Serialize(Domain.Message message)
