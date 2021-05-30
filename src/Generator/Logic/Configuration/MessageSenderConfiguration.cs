@@ -4,6 +4,6 @@
     {
         public int SendHighWatermark { get; set; }
 
-        public string Address { get; set; }
+        public string Address { get; set; } = default!;
     }
 }
