@@ -24,7 +24,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
         {
             if (logger is null)
             {
-                throw new ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(logger));
             }
 
             if (options is null)
