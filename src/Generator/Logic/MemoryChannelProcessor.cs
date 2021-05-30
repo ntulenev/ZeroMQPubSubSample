@@ -42,7 +42,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
         {
             await foreach (var msg in _channel.ReadAllAsync(ct))
             {
-                _sender.SendMessage(msg);
+                await _sender.SendMessageAsync(msg, ct);
             }
         }
 
