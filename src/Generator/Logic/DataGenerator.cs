@@ -59,13 +59,13 @@ namespace ZeroMQPubSubSample.Generator.Logic
             {
                 while (ct.IsCancellationRequested)
                 {
-                    await Task.Delay(_config.GenerationPeriodSeconds, ct);
+                    await Task.Delay(_config.GenerationPeriodSeconds, ct).ConfigureAwait(false);
 
                     var msg = new TargetedMessage(_config.TaskId, Guid.NewGuid().ToString(), _config.Destination);
 
                     _logger.LogInformation("Sending new data {message}", msg);
 
-                    await _channel.WriteAsync(msg, ct);
+                    await _channel.WriteAsync(msg, ct).ConfigureAwait(false);
                 }
             }
             catch (Exception ex) when (ex is OperationCanceledException)

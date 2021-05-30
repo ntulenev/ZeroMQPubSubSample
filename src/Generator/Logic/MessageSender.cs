@@ -65,7 +65,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             ct.Register(cancelTaskSource.SetResult);
 
-            await Task.WhenAny(cancelTaskSource.Task, sendTask);
+            await Task.WhenAny(cancelTaskSource.Task, sendTask).ConfigureAwait(false);
         }
 
         private static string Serialize(Domain.Message message)

@@ -43,7 +43,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
         public async ValueTask WriteAsync(TargetedMessage message, CancellationToken ct)
         {
-            await _channel.Writer.WriteAsync(message, ct);
+            await _channel.Writer.WriteAsync(message, ct).ConfigureAwait(false);
         }
 
         public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken ct)
