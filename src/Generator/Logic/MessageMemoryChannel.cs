@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
         {
             if (logger is null)
             {
-                throw new ArgumentNullException(nameof(options));
+                throw new ArgumentNullException(nameof(logger));
             }
 
             if (options is null)
@@ -43,6 +44,11 @@ namespace ZeroMQPubSubSample.Generator.Logic
         public async ValueTask WriteAsync(TargetedMessage message, CancellationToken ct)
         {
             await _channel.Writer.WriteAsync(message, ct);
+        }
+
+        public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken ct)
+        {
+            return _channel.Reader.ReadAllAsync(ct);
         }
 
         private readonly Channel<TargetedMessage> _channel;
