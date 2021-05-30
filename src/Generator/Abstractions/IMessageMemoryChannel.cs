@@ -15,6 +15,6 @@ namespace ZeroMQPubSubSample.Generator.Abstractions
         /// </summary>
         /// <param name="message">Message.</param>
         /// <param name="ct">Cancellation token.</param>
-        public ValueTask WriteAsync(Message message, CancellationToken ct);
+        public ValueTask WriteAsync(TargetedMessage message, CancellationToken ct);
     }
 }
