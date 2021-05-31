@@ -18,6 +18,10 @@ namespace ZeroMQPubSubSample.Generator.Abstractions
         /// <param name="ct">Cancellation token.</param>
         public ValueTask WriteAsync(TargetedMessage message, CancellationToken ct);
 
+        /// <summary>
+        /// Read all data from channel as async iterator.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
         public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken cancellationToken = default);
     }
 }

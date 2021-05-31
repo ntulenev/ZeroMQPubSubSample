@@ -8,8 +8,15 @@ using ZeroMQPubSubSample.Generator.Abstractions;
 
 namespace ZeroMQPubSubSample.Generator.Logic
 {
+    /// <inheritdoc/>
     public class MemoryChannelProcessor : IMemoryChannelProcessor
     {
+        /// <summary>
+        /// Creates <see cref="MemoryChannelProcessor"/>.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="channel">Channel with messages.</param>
+        /// <param name="sender">Message sender.</param>
         public MemoryChannelProcessor(
                                         ILogger<MemoryChannelProcessor> logger,
                                         IMessageMemoryChannel channel,
@@ -38,6 +45,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _logger.LogInformation("Memory channel processor created.");
         }
 
+        /// <inheritdoc/>
         public async Task ProcessAsync(CancellationToken ct)
         {
             await foreach (var msg in _channel.ReadAllAsync(ct).ConfigureAwait(false))

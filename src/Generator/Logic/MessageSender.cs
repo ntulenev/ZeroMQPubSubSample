@@ -17,6 +17,9 @@ using Domain = ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Generator.Logic
 {
+    /// <summary>
+    ///Sends data to other systems.
+    /// </summary>
     public class MessageSender : IMessageSender, IDisposable
     {
         public MessageSender(
@@ -48,6 +51,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _logger.LogInformation("MessageSender created.");
         }
 
+        /// <inheritdoc/>
         public async Task SendMessageAsync(Domain.TargetedMessage message, CancellationToken ct)
         {
             if (message is null)
@@ -74,6 +78,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             return JsonConvert.SerializeObject(transport);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (_isDisposed)

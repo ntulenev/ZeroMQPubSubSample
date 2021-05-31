@@ -13,9 +13,14 @@ using ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 namespace ZeroMQPubSubSample.Generator.Logic
 {
-
+    /// <inheritdoc/>
     public class MessageMemoryChannel : IMessageMemoryChannel
     {
+        /// <summary>
+        /// Creates <see cref="MessageMemoryChannel"/>.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="options">Channel settings.</param>
         public MessageMemoryChannel(
                                     ILogger<MessageMemoryChannel> logger,
                                     IOptions<MessageMemoryChannelConfiguration> options)
@@ -41,11 +46,13 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _logger.LogInformation("Memory channel created with capacity = {Capacity}.", options.Value.Capacity);
         }
 
+        /// <inheritdoc/>
         public async ValueTask WriteAsync(TargetedMessage message, CancellationToken ct)
         {
             await _channel.Writer.WriteAsync(message, ct).ConfigureAwait(false);
         }
 
+        /// <inheritdoc/>
         public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken ct)
         {
             return _channel.Reader.ReadAllAsync(ct);
