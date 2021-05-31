@@ -57,7 +57,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
         {
             try
             {
-                while (ct.IsCancellationRequested)
+                while (!ct.IsCancellationRequested)
                 {
                     await Task.Delay(_config.GenerationPeriodSeconds, ct).ConfigureAwait(false);
 
