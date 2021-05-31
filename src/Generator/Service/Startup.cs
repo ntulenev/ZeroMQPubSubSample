@@ -1,15 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ZeroMQPubSubSample.Generator.Service
 {
@@ -24,12 +16,14 @@ namespace ZeroMQPubSubSample.Generator.Service
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO Add config
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // TODO Add config
+            app.UseRouting();
+
+            app.UseHealthChecks("/hc");
         }
     }
 }
