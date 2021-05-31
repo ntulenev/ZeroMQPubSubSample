@@ -30,9 +30,12 @@ namespace ZeroMQPubSubSample.Generator.Service
 
             services.AddSingleton(RegisterGenerators);
             services.AddSingleton<IMessageMemoryChannel, MessageMemoryChannel>();
+            services.AddSingleton<IMemoryChannelProcessor, MemoryChannelProcessor>();
+            services.AddSingleton<IMessageSender, MessageSender>();
             services.Configure<MessageMemoryChannelConfiguration>(Configuration.GetSection(nameof(MessageMemoryChannelConfiguration)));
-
+            services.Configure<MessageSenderConfiguration>(Configuration.GetSection(nameof(MessageSenderConfiguration)));
             services.AddHostedService<GenerationService>();
+            services.AddHostedService<SenderService>();
         }
 
         private IEnumerable<IDataGenerator> RegisterGenerators(IServiceProvider serviceProvider)
