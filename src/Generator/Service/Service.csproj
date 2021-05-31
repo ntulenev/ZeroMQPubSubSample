@@ -11,4 +11,11 @@
     <RootNamespace>ZeroMQPubSubSample.Generator.Service</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Models\Models.csproj" />
+    <ProjectReference Include="..\..\Common\Serialization\Serialization.csproj" />
+    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
+  </ItemGroup>
+
 </Project>
