@@ -31,25 +31,25 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             try
             {
                 _stopper = Task.WhenAll(_generators
-                                        .Select(x =>
-                                                    Task.Run(async () => await x.GenerateDataAsync(_hostApplicationLifetime.ApplicationStopping)
-                                                                                .ConfigureAwait(false)
-                                                            )
-                                               )
-                                        );
+                            .Select(x =>
+                                        Task.Run(async () => await x.GenerateDataAsync(_hostApplicationLifetime.ApplicationStopping)
+                                                                    .ConfigureAwait(false)
+                                                )
+                                   )
+                            );
             }
             catch (Exception ex)
             {
-                _logger?.LogCritical(ex, "Error generation test data");
+                _logger?.LogCritical(ex, "Error starting GenerationService.");
                 _hostApplicationLifetime.StopApplication();
             }
 
             return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken) => await _stopper;
+        public async Task StopAsync(CancellationToken cancellationToken) => await _stopper.ConfigureAwait(false);
 
-        private readonly ILogger<GenerationService>? _logger;
+        private readonly ILogger<GenerationService> _logger;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private readonly IEnumerable<IDataGenerator> _generators;
         private Task _stopper = default!;
