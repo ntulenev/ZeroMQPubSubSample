@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation
 {
@@ -8,7 +6,17 @@ namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation
     {
         public ValidateOptionsResult Validate(string name, MessageMemoryChannelConfiguration options)
         {
-            throw new NotImplementedException();
+            if (options is null)
+            {
+                return ValidateOptionsResult.Fail("Configuration object is null.");
+            }
+
+            if (options.Capacity <= 0)
+            {
+                return ValidateOptionsResult.Fail("Capacity should be more than zero.");
+            }
+
+            return ValidateOptionsResult.Success;
         }
     }
 }
