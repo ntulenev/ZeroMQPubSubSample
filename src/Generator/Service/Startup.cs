@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using ZeroMQPubSubSample.Generator.Abstractions;
 using ZeroMQPubSubSample.Generator.Logic;
 using ZeroMQPubSubSample.Generator.Logic.Configuration;
+using ZeroMQPubSubSample.Generator.Logic.Configuration.Validation;
 using ZeroMQPubSubSample.Generator.Service.Services;
 
 namespace ZeroMQPubSubSample.Generator.Service
@@ -32,8 +33,16 @@ namespace ZeroMQPubSubSample.Generator.Service
             services.AddSingleton<IMessageMemoryChannel, MessageMemoryChannel>();
             services.AddSingleton<IMemoryChannelProcessor, MemoryChannelProcessor>();
             services.AddSingleton<IMessageSender, MessageSender>();
+
             services.Configure<MessageMemoryChannelConfiguration>(Configuration.GetSection(nameof(MessageMemoryChannelConfiguration)));
             services.Configure<MessageSenderConfiguration>(Configuration.GetSection(nameof(MessageSenderConfiguration)));
+
+            services.AddSingleton<IValidateOptions<MessageMemoryChannelConfiguration>, MessageMemoryChannelConfigurationValidator>();
+            services.AddSingleton<IValidateOptions<MessageSenderConfiguration>, MessageSenderConfigurationValidator>();
+            
+            // TODO Need To use in manual options creaton logic.
+            //services.AddSingleton<IValidateOptions<DataGeneratorConfiguration>, DataGeneratorConfigurationValidator>();
+
             services.AddHostedService<GenerationService>();
             services.AddHostedService<SenderService>();
         }
@@ -44,6 +53,7 @@ namespace ZeroMQPubSubSample.Generator.Service
             IConfigurationSection generatorConfigs = Configuration.GetSection("Generators");
             foreach (IConfigurationSection generatorConfig in generatorConfigs.GetChildren())
             {
+
                 generators.Add(new DataGenerator(serviceProvider.GetRequiredService<ILogger<DataGenerator>>(),
                                                  Options.Create(generatorConfig.Get<DataGeneratorConfiguration>()),
                                                  serviceProvider.GetRequiredService<IMessageMemoryChannel>()));
