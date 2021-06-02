@@ -24,19 +24,25 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             _logger = logger;
             _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
             _generators = generators ?? throw new ArgumentNullException(nameof(generators));
+
+            _logger.LogInformation("GenerationService created.");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             try
             {
-                _stopper = Task.WhenAll(_generators
+                var generationTasks = _generators
                             .Select(x =>
                                         Task.Run(async () => await x.GenerateDataAsync(_hostApplicationLifetime.ApplicationStopping)
                                                                     .ConfigureAwait(false)
                                                 )
-                                   )
-                            );
+                                   );
+
+                _ = generationTasks.Select(x =>
+                            x.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted));
+
+                _stopper = Task.WhenAll(generationTasks);
             }
             catch (Exception ex)
             {
@@ -47,7 +53,18 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             return Task.CompletedTask;
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken) => await _stopper.ConfigureAwait(false);
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Stopping service.");
+            try
+            {
+                await _stopper.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                //Skip
+            }
+        }
 
         private readonly ILogger<GenerationService> _logger;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;

@@ -68,7 +68,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
                     await _channel.WriteAsync(msg, ct).ConfigureAwait(false);
                 }
             }
-            catch (Exception ex) when (ex is OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 // Skip
             }

@@ -29,7 +29,7 @@ namespace ZeroMQPubSubSample.Generator.Service
         {
             services.AddHealthChecks();
 
-            services.AddSingleton(RegisterGenerators);
+            services.AddSingleton(CreateGenerators);
             services.AddSingleton<IMessageMemoryChannel, MessageMemoryChannel>();
             services.AddSingleton<IMemoryChannelProcessor, MemoryChannelProcessor>();
             services.AddSingleton<IMessageSender, MessageSender>();
@@ -46,7 +46,7 @@ namespace ZeroMQPubSubSample.Generator.Service
             services.AddHostedService<SenderService>();
         }
 
-        private IEnumerable<IDataGenerator> RegisterGenerators(IServiceProvider serviceProvider)
+        private IEnumerable<IDataGenerator> CreateGenerators(IServiceProvider serviceProvider)
         {
             List<IDataGenerator> generators = new();
             IConfigurationSection generatorConfigs = Configuration.GetSection("Generators");

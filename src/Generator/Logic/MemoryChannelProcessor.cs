@@ -48,9 +48,17 @@ namespace ZeroMQPubSubSample.Generator.Logic
         /// <inheritdoc/>
         public async Task ProcessAsync(CancellationToken ct)
         {
-            await foreach (var msg in _channel.ReadAllAsync(ct).ConfigureAwait(false))
+            try
             {
-                await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
+                await foreach (var msg in _channel.ReadAllAsync(ct).ConfigureAwait(false))
+                {
+                    _logger.LogInformation("Sending message {message}", msg);
+                    await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Skip
             }
         }
 

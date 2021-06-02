@@ -61,7 +61,11 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             ThrowIfDisposed();
 
+            _logger.LogInformation("Seralizing message {message}", message);
+
             var data = Serialize(message);
+
+            _logger.LogInformation("Sending raw message {data} to {address} / {destination}", data, _config.Address, message.Destination);
 
             var sendTask = Task.Run(() => _pubSocket.SendMoreFrame(message.Destination).SendFrame(data), ct);
 
@@ -69,7 +73,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             ct.Register(cancelTaskSource.SetResult);
 
-            await Task.WhenAny(cancelTaskSource.Task, sendTask).ConfigureAwait(false);
+            await Task.WhenAny(cancelTaskSource.Task, sendTask).Unwrap().ConfigureAwait(false);
         }
 
         private static string Serialize(Domain.Message message)
