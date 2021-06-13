@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	<LangVersion>9.0</LangVersion>
+	<Nullable>enable</Nullable>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	<Platform>x64</Platform>
+	<Platforms>x64</Platforms>
+    <RootNamespace>ZeroMQPubSubSample.Processor.Service</RootNamespace>
+    <AssemblyName>ZeroMQPubSubSample.Processor.Service</AssemblyName>
+  </PropertyGroup>
+</Project>
