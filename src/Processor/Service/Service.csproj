@@ -12,5 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Models\Models.csproj" />
     <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
   </ItemGroup>
 </Project>
