@@ -9,4 +9,8 @@
     <RootNamespace>ZeroMQPubSubSample.Processor.Service</RootNamespace>
     <AssemblyName>ZeroMQPubSubSample.Processor.Service</AssemblyName>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Models\Models.csproj" />
+    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+  </ItemGroup>
 </Project>
