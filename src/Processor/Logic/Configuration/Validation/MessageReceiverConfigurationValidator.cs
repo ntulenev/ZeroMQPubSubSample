@@ -2,7 +2,7 @@
 
 namespace ZeroMQPubSubSample.Processor.Logic.Configuration.Validation
 {
-    class MessageReceiverConfigurationValidator : IValidateOptions<MessageReceiverConfiguration>
+    public class MessageReceiverConfigurationValidator : IValidateOptions<MessageReceiverConfiguration>
     {
         public ValidateOptionsResult Validate(string name, MessageReceiverConfiguration options)
         {

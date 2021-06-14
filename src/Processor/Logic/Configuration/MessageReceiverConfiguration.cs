@@ -1,6 +1,6 @@
 ﻿namespace ZeroMQPubSubSample.Processor.Logic.Configuration
 {
-    class MessageReceiverConfiguration
+    public class MessageReceiverConfiguration
     {
         /// <summary>
         /// NetMQ tcp socket address.
