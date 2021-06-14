@@ -19,7 +19,7 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
                              IMemoryChannelProcessor processor
                                     )
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
 
