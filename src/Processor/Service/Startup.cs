@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 using ZeroMQPubSubSample.Processor.Abstractions;
+using ZeroMQPubSubSample.Processor.Logic;
 using ZeroMQPubSubSample.Processor.Logic.Configuration;
 using ZeroMQPubSubSample.Processor.Logic.Configuration.Validation;
 using ZeroMQPubSubSample.Processor.Service.Services;
@@ -26,7 +27,7 @@ namespace ZeroMQPubSubSample.Processor.Service
             services.AddHealthChecks();
 
             services.AddSingleton<IMessageProcessor, FakeMessageProcessor>();
-            //TODO Add IMessageReceiver
+            services.AddSingleton<IMessageReceiver, MessageReceiver>();
 
             services.Configure<MessageReceiverConfiguration>(Configuration.GetSection(nameof(MessageReceiverConfiguration)));
             services.AddSingleton<IValidateOptions<MessageReceiverConfiguration>, MessageReceiverConfigurationValidator>();
