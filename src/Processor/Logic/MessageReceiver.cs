@@ -57,19 +57,17 @@ namespace ZeroMQPubSubSample.Processor.Logic
             subSocket.Connect(_config.Address);
             subSocket.Subscribe(_config.Topic);
 
+            var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
+            ct.Register(() => stopperTcs.SetCanceled());
+
             while (!ct.IsCancellationRequested)
             {
-                //TODO Add token logic
-
-                yield return await Task.Run(() =>
+                yield return await Task.WhenAny(Task.Run(() =>
                 {
                     _ = subSocket.ReceiveFrameString();
                     var data = subSocket.ReceiveFrameString();
-
-                    var message = Deserialize(data);
-
-                    return message;
-                }, ct);
+                    return Deserialize(data);
+                }, ct), stopperTcs.Task).Unwrap();
             }
         }
 
