@@ -21,6 +21,21 @@ namespace ZeroMQPubSubSample.Processor.Logic.Configuration.Validation
                 return ValidateOptionsResult.Fail("Address not set.");
             }
 
+            if (options.Topic is null)
+            {
+                return ValidateOptionsResult.Fail("Topic is null.");
+            }
+
+            if (string.IsNullOrWhiteSpace(options.Topic))
+            {
+                return ValidateOptionsResult.Fail("Topic not set.");
+            }
+
+            if (options.ReceiveHighWatermark <= 0)
+            {
+                return ValidateOptionsResult.Fail("SendHighWatermark should be more than zero.");
+            }
+
             return ValidateOptionsResult.Success;
         }
     }
