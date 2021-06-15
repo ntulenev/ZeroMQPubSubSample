@@ -37,7 +37,7 @@ namespace ZeroMQPubSubSample.Processor.Service.Services
                     await foreach (var message in _receiver.ReceiveAsync(_hostApplicationLifetime.ApplicationStopping)
                                                           .ConfigureAwait(false))
                     {
-                        _logger.LogInformation("Process message {message}.", message);
+                        _logger.LogDebug("Process message {message}.", message);
                         await _processor.ProcessAsync(message, _hostApplicationLifetime.ApplicationStopping);
                     }
                 });

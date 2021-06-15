@@ -61,11 +61,11 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             ThrowIfDisposed();
 
-            _logger.LogInformation("Seralizing message {message}", message);
+            _logger.LogDebug("Seralizing message {message}", message);
 
             var data = Serialize(message);
 
-            _logger.LogInformation("Sending raw message {data} to {address} / {destination}", data, _config.Address, message.Destination);
+            _logger.LogDebug("Sending raw message {data} to {address} / {destination}", data, _config.Address, message.Destination);
 
             var sendTask = Task.Run(() => _pubSocket.SendMoreFrame(message.Destination).SendFrame(data), ct);
 
