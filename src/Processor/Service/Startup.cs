@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
+using ZeroMQPubSubSample.Processor.Abstractions;
 using ZeroMQPubSubSample.Processor.Logic.Configuration;
 using ZeroMQPubSubSample.Processor.Logic.Configuration.Validation;
 using ZeroMQPubSubSample.Processor.Service.Services;
@@ -24,7 +24,7 @@ namespace ZeroMQPubSubSample.Processor.Service
         {
             services.AddHealthChecks();
 
-            //TODO Add IMessageProcessor 
+            services.AddSingleton<IMessageProcessor, FakeMessageProcessor>();
             //TODO Add IMessageReceiver
 
             services.Configure<MessageReceiverConfiguration>(Configuration.GetSection(nameof(MessageReceiverConfiguration)));
