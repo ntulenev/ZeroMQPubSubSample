@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using ZeroMQPubSubSample.Common.Models;
+using ZeroMQPubSubSample.Processor.Abstractions;
 
-namespace ZeroMQPubSubSample.Processor.Abstractions
+namespace ZeroMQPubSubSample.Processor.Logic.Configuration
 {
     /// <summary>
     /// Stub for processing messages.

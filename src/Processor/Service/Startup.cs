@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
 using ZeroMQPubSubSample.Processor.Abstractions;
 using ZeroMQPubSubSample.Processor.Logic.Configuration;
 using ZeroMQPubSubSample.Processor.Logic.Configuration.Validation;
