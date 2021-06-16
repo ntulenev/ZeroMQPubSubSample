@@ -66,12 +66,20 @@ namespace ZeroMQPubSubSample.Processor.Logic
             {
                 yield return await Task.WhenAny(Task.Run(() =>
                 {
-                    var topic = subSocket.ReceiveFrameString();
-                    var data = subSocket.ReceiveFrameString();
+                    try
+                    {
+                        var topic = subSocket.ReceiveFrameString();
+                        var data = subSocket.ReceiveFrameString();
 
-                    _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
+                        _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
 
-                    return Deserialize(data);
+                        return Deserialize(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error on receive message.");
+                        throw;
+                    }
 
                 }, ct), stopperTcs.Task).Unwrap();
             }
