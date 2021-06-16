@@ -1,7 +1,7 @@
 ﻿namespace ZeroMQPubSubSample.Generator.Logic.Configuration
 {
     /// <summary>
-    /// Configuration for <see cref="MessageSender"/>
+    /// Configuration for <see cref="MessageSender"/>.
     /// </summary>
     public class MessageSenderConfiguration
     {

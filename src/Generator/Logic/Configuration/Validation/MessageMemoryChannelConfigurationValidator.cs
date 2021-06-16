@@ -2,8 +2,14 @@
 
 namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation
 {
+    /// <summary>
+    /// Validator for <see cref="MessageMemoryChannelConfiguration"/>.
+    /// </summary>
     public class MessageMemoryChannelConfigurationValidator : IValidateOptions<MessageMemoryChannelConfiguration>
     {
+        /// <summary>
+        /// Validates <see cref="MessageMemoryChannelConfiguration"/>.
+        /// </summary>
         public ValidateOptionsResult Validate(string name, MessageMemoryChannelConfiguration options)
         {
             if (options is null)

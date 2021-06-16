@@ -42,7 +42,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _channel = channel;
             _sender = sender;
 
-            _logger.LogInformation("Memory channel processor created.");
+            _logger.LogDebug("Memory channel processor created.");
         }
 
         /// <inheritdoc/>
@@ -52,8 +52,16 @@ namespace ZeroMQPubSubSample.Generator.Logic
             {
                 await foreach (var msg in _channel.ReadAllAsync(ct).ConfigureAwait(false))
                 {
-                    _logger.LogDebug("Sending message {message}", msg);
-                    await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
+                    try
+                    {
+                        _logger.LogDebug("Sending message {message}", msg);
+                        await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error on sending message {message}", msg);
+                        throw;
+                    }
                 }
             }
             catch (OperationCanceledException)

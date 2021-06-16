@@ -1,11 +1,15 @@
-﻿using System;
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation
 {
+    /// <summary>
+    /// Validator for <see cref="MessageSenderConfiguration"/>.
+    /// </summary>
     public class MessageSenderConfigurationValidator : IValidateOptions<MessageSenderConfiguration>
     {
+        /// <summary>
+        /// Validates <see cref="MessageSenderConfiguration"/>.
+        /// </summary>
         public ValidateOptionsResult Validate(string name, MessageSenderConfiguration options)
         {
             if (options is null)

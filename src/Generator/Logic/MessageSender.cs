@@ -22,6 +22,11 @@ namespace ZeroMQPubSubSample.Generator.Logic
     /// </summary>
     public class MessageSender : IMessageSender, IDisposable
     {
+        /// <summary>
+        /// Creates <see cref="MessageSender"/>.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="options">Config params.</param>
         public MessageSender(
                              ILogger<MessageSender> logger,
                              IOptions<MessageSenderConfiguration> options)
@@ -48,7 +53,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _pubSocket.Options.SendHighWatermark = _config.SendHighWatermark;
             _pubSocket.Bind(_config.Address);
 
-            _logger.LogInformation("MessageSender created.");
+            _logger.LogDebug("MessageSender created.");
         }
 
         /// <inheritdoc/>
@@ -61,13 +66,20 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             ThrowIfDisposed();
 
-            _logger.LogDebug("Seralizing message {message}", message);
+            using var _ = _logger.BeginScope("Sending message {message}", message);
+
+            _logger.LogDebug("Seralizing message.", message);
 
             var data = Serialize(message);
 
-            _logger.LogDebug("Sending raw message {data} to {address} / {destination}", data, _config.Address, message.Destination);
+            var sendTask = Task.Run(() =>
+            {
 
-            var sendTask = Task.Run(() => _pubSocket.SendMoreFrame(message.Destination).SendFrame(data), ct);
+                _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", data, _config.Address, message.Destination);
+                _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
+                _logger.LogDebug("Message has been sended.", data, _config.Address, message.Destination);
+
+            }, ct);
 
             TaskCompletionSource cancelTaskSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -93,7 +105,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             Dispose(true);
             _isDisposed = true;
 
-            _logger.LogInformation("Instance disposed.");
+            _logger.LogDebug("Instance disposed.");
 
             GC.SuppressFinalize(this);
         }

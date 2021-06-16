@@ -1,7 +1,7 @@
 ﻿namespace ZeroMQPubSubSample.Generator.Logic.Configuration
 {
     /// <summary>
-    /// Configuration for <see cref="MessageMemoryChannel"/>
+    /// Configuration for <see cref="MessageMemoryChannel"/>.
     /// </summary>
     public class MessageMemoryChannelConfiguration
     {

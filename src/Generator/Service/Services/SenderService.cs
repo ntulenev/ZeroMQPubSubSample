@@ -10,7 +10,7 @@ using ZeroMQPubSubSample.Generator.Abstractions;
 namespace ZeroMQPubSubSample.Generator.Service.Services
 {
     /// <summary>
-    /// Hosted service that sends test data messages
+    /// Hosted service that sends test data messages.
     /// </summary>
     public class SenderService : IHostedService
     {
@@ -23,7 +23,7 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
             _processor = processor ?? throw new ArgumentNullException(nameof(processor));
 
-            _logger.LogInformation("SenderService created.");
+            _logger.LogDebug("SenderService created.");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

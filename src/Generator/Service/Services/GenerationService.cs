@@ -12,7 +12,7 @@ using ZeroMQPubSubSample.Generator.Abstractions;
 namespace ZeroMQPubSubSample.Generator.Service.Services
 {
     /// <summary>
-    /// Hosted service that generates test data messages
+    /// Hosted service that generates test data messages.
     /// </summary>
     public class GenerationService : IHostedService
     {
@@ -25,7 +25,7 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
             _generators = generators ?? throw new ArgumentNullException(nameof(generators));
 
-            _logger.LogInformation("GenerationService created.");
+            _logger.LogDebug("GenerationService created.");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -63,6 +63,10 @@ namespace ZeroMQPubSubSample.Generator.Service.Services
             catch (OperationCanceledException)
             {
                 //Skip
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error on stopping service");
             }
         }
 

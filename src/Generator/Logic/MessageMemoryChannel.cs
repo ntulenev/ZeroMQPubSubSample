@@ -43,7 +43,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _logger = logger;
             _channel = Channel.CreateBounded<TargetedMessage>(options.Value.Capacity);
 
-            _logger.LogInformation("Memory channel created with capacity = {Capacity}.", options.Value.Capacity);
+            _logger.LogDebug("Memory channel created with capacity = {Capacity}.", options.Value.Capacity);
         }
 
         /// <inheritdoc/>

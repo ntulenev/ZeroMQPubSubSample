@@ -49,7 +49,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
             _config = options.Value;
             _logger = logger;
 
-            _logger.LogInformation("Data generator {TaskId} created.", _config.TaskId);
+            _logger.LogDebug("Data generator {TaskId} created.", _config.TaskId);
         }
 
         /// <inheritdoc/>
@@ -63,7 +63,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
                     var msg = new TargetedMessage(_config.TaskId, Guid.NewGuid().ToString(), _config.Destination);
 
-                    _logger.LogInformation("Sending new data {message}", msg);
+                    _logger.LogInformation("Creating new data {message}", msg);
 
                     await _channel.WriteAsync(msg, ct).ConfigureAwait(false);
                 }
