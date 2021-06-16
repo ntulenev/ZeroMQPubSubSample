@@ -23,12 +23,12 @@ using Domain = ZeroMQPubSubSample.Common.Models;
 namespace ZeroMQPubSubSample.Processor.Logic
 {
     /// <summary>
-    /// ZeroMQ message receiver
+    /// ZeroMQ message receiver.
     /// </summary>
     public class MessageReceiver : IMessageReceiver
     {
         /// <summary>
-        /// Creates <see cref="MessageReceiver"/>
+        /// Creates <see cref="MessageReceiver"/>.
         /// </summary>
         public MessageReceiver(ILogger<MessageReceiver> logger, IOptions<MessageReceiverConfiguration> config)
         {
@@ -41,10 +41,12 @@ namespace ZeroMQPubSubSample.Processor.Logic
 
             if (config.Value is null)
             {
-                throw new ArgumentException("Configuration is not set", nameof(config));
+                throw new ArgumentException("Configuration is not set.", nameof(config));
             }
 
             _config = config.Value;
+
+            _logger.LogDebug("MessageReceiver created.");
         }
 
         /// <inheritdoc/>
@@ -64,9 +66,13 @@ namespace ZeroMQPubSubSample.Processor.Logic
             {
                 yield return await Task.WhenAny(Task.Run(() =>
                 {
-                    _ = subSocket.ReceiveFrameString();
+                    var topic = subSocket.ReceiveFrameString();
                     var data = subSocket.ReceiveFrameString();
+
+                    _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
+
                     return Deserialize(data);
+
                 }, ct), stopperTcs.Task).Unwrap();
             }
         }

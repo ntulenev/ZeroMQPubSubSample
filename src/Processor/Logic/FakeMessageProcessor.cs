@@ -18,6 +18,8 @@ namespace ZeroMQPubSubSample.Processor.Logic.Configuration
         public FakeMessageProcessor(ILogger<FakeMessageProcessor> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _logger.LogDebug("FakeMessageProcessor created.");
         }
 
         public Task ProcessAsync(Message message, CancellationToken ct)

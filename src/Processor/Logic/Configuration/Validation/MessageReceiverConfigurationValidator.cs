@@ -2,8 +2,14 @@
 
 namespace ZeroMQPubSubSample.Processor.Logic.Configuration.Validation
 {
+    /// <summary>
+    /// Validator for <see cref="MessageReceiverConfiguration"/>.
+    /// </summary>
     public class MessageReceiverConfigurationValidator : IValidateOptions<MessageReceiverConfiguration>
     {
+        /// <summary>
+        /// Validates <see cref="MessageReceiverConfiguration"/>.
+        /// </summary>
         public ValidateOptionsResult Validate(string name, MessageReceiverConfiguration options)
         {
             if (options is null)

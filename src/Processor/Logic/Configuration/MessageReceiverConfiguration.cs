@@ -1,5 +1,8 @@
 ﻿namespace ZeroMQPubSubSample.Processor.Logic.Configuration
 {
+    /// <summary>
+    /// Configuration for <see cref="MessageReceiverConfiguration"/>.
+    /// </summary>
     public class MessageReceiverConfiguration
     {
         /// <summary>
@@ -13,7 +16,7 @@
         public int ReceiveHighWatermark { get; set; }
 
         /// <summary>
-        /// Target queue
+        /// Targeted queue.
         /// </summary>
         public string Topic { get; set; } = default!;
     }

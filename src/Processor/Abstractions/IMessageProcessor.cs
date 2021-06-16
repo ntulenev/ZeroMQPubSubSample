@@ -11,7 +11,7 @@ namespace ZeroMQPubSubSample.Processor.Abstractions
     public interface IMessageProcessor
     {
         /// <summary>
-        /// Process message
+        /// Process message.
         /// </summary>
         public Task ProcessAsync(Message message, CancellationToken ct);
     }
