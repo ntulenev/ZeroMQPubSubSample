@@ -1,17 +1,9 @@
-namespace ZeroMQPubSubSample.Generator.Service
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+using ZeroMQPubSubSample.Generator.Service;
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+var builder = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-    }
-}
+var app = builder.Build(); 
+app.Run();
