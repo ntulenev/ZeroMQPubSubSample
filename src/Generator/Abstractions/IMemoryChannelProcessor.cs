@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace ZeroMQPubSubSample.Generator.Abstractions
+﻿namespace ZeroMQPubSubSample.Generator.Abstractions
 {
     /// <summary>
     /// Worker that reads data from channel and does processing.

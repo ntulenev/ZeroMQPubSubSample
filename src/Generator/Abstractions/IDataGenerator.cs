@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace ZeroMQPubSubSample.Generator.Abstractions
+﻿namespace ZeroMQPubSubSample.Generator.Abstractions
 {
     /// <summary>
     /// Generates test messages.

@@ -1,6 +1,4 @@
-﻿using System;
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation
 {

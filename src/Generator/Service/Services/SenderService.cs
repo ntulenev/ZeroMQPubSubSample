@@ -1,11 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using ZeroMQPubSubSample.Generator.Abstractions;
+﻿using ZeroMQPubSubSample.Generator.Abstractions;
 
 namespace ZeroMQPubSubSample.Generator.Service.Services
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ZeroMQPubSubSample.Generator.Logic.Configuration
+﻿namespace ZeroMQPubSubSample.Generator.Logic.Configuration
 {
     /// <summary>
     /// Configuration for <see cref="DataGenerator"/>.

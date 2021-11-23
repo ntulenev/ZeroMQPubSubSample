@@ -1,6 +1,4 @@
-﻿using System;
-
-using Domain = ZeroMQPubSubSample.Common.Models;
+﻿using Domain = ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Common.Serialization
 {
