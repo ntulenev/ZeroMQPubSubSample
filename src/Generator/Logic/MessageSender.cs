@@ -77,7 +77,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
                 _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", data, _config.Address, message.Destination);
                 _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
-                _logger.LogDebug("Message has been sended.", data, _config.Address, message.Destination);
+                _logger.LogDebug("Message {data} has been sended to {address} / {destination}.", data, _config.Address, message.Destination);
 
             }, ct);
 
