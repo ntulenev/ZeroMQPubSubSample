@@ -13,12 +13,12 @@ public sealed class Message
     /// </summary>
     [JsonProperty("key")]
     [JsonRequired]
-    public long Key { get; set; }
+    public required long Key { get; init; }
 
     /// <summary>
     /// Message value.
     /// </summary>
     [JsonProperty("value")]
     [JsonRequired]
-    public string Value { get; set; } = default!;
+    public required string Value { get; init; }
 }
