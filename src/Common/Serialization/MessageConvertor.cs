@@ -14,10 +14,7 @@ public static class MessageConvertor
     /// <returns>Transport message model.</returns>
     public static Domain.Message FromTransport(this Message msg)
     {
-        if (msg is null)
-        {
-            throw new ArgumentNullException(nameof(msg));
-        }
+        ArgumentNullException.ThrowIfNull(msg);
 
         if (msg.Value is null)
         {
@@ -39,10 +36,7 @@ public static class MessageConvertor
     /// <returns>Domain message model.</returns>
     public static Message ToTransport(this Domain.Message msg)
     {
-        if (msg is null)
-        {
-            throw new ArgumentNullException(nameof(msg));
-        }
+        ArgumentNullException.ThrowIfNull(msg);
 
         return new Message
         {
