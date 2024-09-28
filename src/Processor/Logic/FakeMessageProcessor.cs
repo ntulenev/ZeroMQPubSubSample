@@ -8,7 +8,7 @@ namespace ZeroMQPubSubSample.Processor.Logic.Configuration;
 /// <summary>
 /// Stub for processing messages.
 /// </summary>
-public class FakeMessageProcessor : IMessageProcessor
+public sealed class FakeMessageProcessor : IMessageProcessor
 {
     /// <inheritdoc/>
     public FakeMessageProcessor(ILogger<FakeMessageProcessor> logger)

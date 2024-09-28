@@ -3,7 +3,7 @@
 /// <summary>
 /// Configuration for <see cref="MessageReceiverConfiguration"/>.
 /// </summary>
-public class MessageReceiverConfiguration
+public sealed class MessageReceiverConfiguration
 {
     /// <summary>
     /// NetMQ tcp socket address.
@@ -11,7 +11,7 @@ public class MessageReceiverConfiguration
     public string Address { get; set; } = default!;
 
     /// <summary>
-    /// Limit on the maximum number of incomming messages ØMQ shall queue in memory.
+    /// Limit on the maximum number of incoming messages ØMQ shall queue in memory.
     /// </summary>
     public int ReceiveHighWatermark { get; set; }
 

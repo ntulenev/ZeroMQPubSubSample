@@ -21,7 +21,7 @@ namespace ZeroMQPubSubSample.Processor.Logic;
 /// <summary>
 /// ZeroMQ message receiver.
 /// </summary>
-public class MessageReceiver : IMessageReceiver
+public sealed class MessageReceiver : IMessageReceiver
 {
     /// <summary>
     /// Creates <see cref="MessageReceiver"/>.

@@ -5,7 +5,7 @@ namespace ZeroMQPubSubSample.Processor.Service.Services;
 /// <summary>
 /// Hosted service that receives messages.
 /// </summary>
-public class ReceiverService : IHostedService
+public sealed class ReceiverService : IHostedService
 {
     public ReceiverService(ILogger<ReceiverService> logger,
                         IHostApplicationLifetime hostApplicationLifetime,
