@@ -6,7 +6,7 @@ namespace ZeroMQPubSubSample.Common.Serialization;
 /// Transport message model.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn)]
-public class Message
+public sealed class Message
 {
     /// <summary>
     /// Message key.
