@@ -75,7 +75,7 @@ The **Data Processing Service** subscribes to the data published by the Data Gen
 
 - **Address**: Specifies the TCP address that the processor uses to connect to the NetMQ publisher.
   - **Example**: `tcp://localhost:12345` means the processor is listening on the local machine (`localhost`) at port `12345`.
-- **ReceiveHighWatermark**: Defines the maximum number of incoming messages that can be queued for processing. If the limit is reached, new messages will be discarded.
+- **ReceiveHighWatermark**: Defines the maximum number of incoming messages that can be queued for processing.
   - **Example**: A high watermark of `100` means the processor can queue up to 100 messages.
 - **Topic**: Specifies the topic for which the processor will receive messages. This topic should match the destination topic used in the Data Generation Service configuration.
   - **Example**: The processor is configured to listen to the `"Main"` topic.
