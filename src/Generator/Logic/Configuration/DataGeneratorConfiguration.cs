@@ -8,15 +8,15 @@ public sealed class DataGeneratorConfiguration
     /// <summary>
     /// Data generation period.
     /// </summary>
-    public TimeSpan GenerationPeriodSeconds { get; set; }
+    public TimeSpan GenerationPeriodSeconds { get; init; }
 
     /// <summary>
     /// Data generation task marker.
     /// </summary>
-    public long TaskId { get; set; }
+    public long TaskId { get; init; }
 
     /// <summary>
     /// Target queue.
     /// </summary>
-    public string Destination { get; set; } = default!;
+    public required string Destination { get; init; }
 }

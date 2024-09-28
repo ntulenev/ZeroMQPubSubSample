@@ -8,5 +8,5 @@ public sealed class MessageMemoryChannelConfiguration
     /// <summary>
     /// In-memory channel max size.
     /// </summary>
-    public int Capacity { get; set; }
+    public int Capacity { get; init; }
 }

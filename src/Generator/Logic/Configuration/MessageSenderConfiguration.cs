@@ -8,10 +8,10 @@ public sealed class MessageSenderConfiguration
     /// <summary>
     /// Limit on the maximum number of outstanding messages ØMQ shall queue in memory.
     /// </summary>
-    public int SendHighWatermark { get; set; }
+    public int SendHighWatermark { get; init; }
 
     /// <summary>
     /// NetMQ tcp socket address.
     /// </summary>
-    public string Address { get; set; } = default!;
+    public required string Address { get; init; }
 }
