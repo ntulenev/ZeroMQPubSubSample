@@ -2,16 +2,19 @@
 
 namespace ZeroMQPubSubSample.Common.Serialization;
 
+
 /// <summary>
-/// Helper that converts Domain and Transport models.
+/// Provides conversion methods between transport and domain message models.
 /// </summary>
 public static class MessageConvertor
 {
     /// <summary>
-    /// Create <see cref="Domain.Message"/> from <see cref="Message"/>.
+    /// Converts a transport layer <see cref="Message"/> to a domain layer <see cref="Domain.Message"/>.
     /// </summary>
-    /// <param name="msg">Domain message model.</param>
-    /// <returns>Transport message model.</returns>
+    /// <param name="msg">The transport layer message to convert.</param>
+    /// <returns>A domain layer message.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided message is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when the message value is null, empty, or contains only whitespaces.</exception>
     public static Domain.Message FromTransport(this Message msg)
     {
         ArgumentNullException.ThrowIfNull(msg);
@@ -23,17 +26,18 @@ public static class MessageConvertor
 
         if (string.IsNullOrWhiteSpace(msg.Value))
         {
-            throw new ArgumentException("Message Value is empty of contains only whitespaces.", nameof(msg));
+            throw new ArgumentException("Message Value is empty or contains only whitespaces.", nameof(msg));
         }
 
         return new Domain.Message(msg.Key, msg.Value);
     }
 
     /// <summary>
-    /// Create <see cref="Message"/> from <see cref="Domain.Message"/>.
+    /// Converts a domain layer <see cref="Domain.Message"/> to a transport layer <see cref="Message"/>.
     /// </summary>
-    /// <param name="msg">Transport message model.</param>
-    /// <returns>Domain message model.</returns>
+    /// <param name="msg">The domain layer message to convert.</param>
+    /// <returns>A transport layer message.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the provided message is null.</exception>
     public static Message ToTransport(this Domain.Message msg)
     {
         ArgumentNullException.ThrowIfNull(msg);
@@ -45,3 +49,4 @@ public static class MessageConvertor
         };
     }
 }
+

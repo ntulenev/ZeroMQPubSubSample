@@ -3,22 +3,23 @@
 namespace ZeroMQPubSubSample.Common.Serialization;
 
 /// <summary>
-/// Transport message model.
+/// Represents a message with a key and a value to be serialized as JSON.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn)]
 public sealed class Message
 {
     /// <summary>
-    /// Message key.
+    /// Gets the unique key associated with the message.
     /// </summary>
     [JsonProperty("key")]
     [JsonRequired]
     public required long Key { get; init; }
 
     /// <summary>
-    /// Message value.
+    /// Gets the content or value of the message.
     /// </summary>
     [JsonProperty("value")]
     [JsonRequired]
     public required string Value { get; init; }
 }
+
