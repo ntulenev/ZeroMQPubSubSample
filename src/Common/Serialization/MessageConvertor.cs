@@ -2,7 +2,6 @@
 
 namespace ZeroMQPubSubSample.Common.Serialization;
 
-
 /// <summary>
 /// Provides conversion methods between transport and domain message models.
 /// </summary>
@@ -14,7 +13,6 @@ public static class MessageConvertor
     /// <param name="msg">The transport layer message to convert.</param>
     /// <returns>A domain layer message.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the provided message is null.</exception>
-    /// <exception cref="ArgumentException">Thrown when the message value is null, empty, or contains only whitespaces.</exception>
     public static Domain.Message FromTransport(this Message msg)
     {
         ArgumentNullException.ThrowIfNull(msg);

@@ -12,7 +12,6 @@ public sealed class TargetedMessage : Message
     /// <summary>
     /// Gets the destination of the message.
     /// </summary>
-    /// <value>
     public string Destination { get; }
 
     /// <summary>
