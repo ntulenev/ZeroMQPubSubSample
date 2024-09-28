@@ -26,6 +26,28 @@ graph TD
 - **NetMQ Subscriber**: Subscribes to the data sent by the publisher.
 - **Data Processing Service**: Processes the received data from the NetMQ Subscriber.
 
+## Configuration
+
+### Data Generation Service
+
+The **Data Generation Service** is configured using the following structure in the configuration file. Each generator represents a specific task responsible for generating data at a defined interval.
+
+```json
+{
+  "Generators": {
+    "Generator1": {
+      "GenerationPeriodSeconds": "00:00:05",
+      "TaskId": 1,
+      "Destination": "Main"
+    },
+    "Generator2": {
+      "GenerationPeriodSeconds": "00:00:15",
+      "TaskId": 2,
+      "Destination": "Main"
+    }
+  }
+}
+```
 
 ### Example
 
