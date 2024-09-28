@@ -49,6 +49,17 @@ The **Data Generation Service** is configured using the following structure in t
 }
 ```
 
+### Explanation
+
+- **Generator1** and **Generator2**: These represent two example generators that generate data at different intervals.
+- **GenerationPeriodSeconds**: The time interval between data generation events.
+  - **Example**: `"00:00:05"` means a 5-second interval.
+- **TaskId**: A unique identifier for the task.
+  - **Example**: TaskId `1` for Generator1.
+- **Destination**: The topic where the generated data will be sent.
+  - **Example**: `"Main"`.
+
+
 ### Example
 
 ![Test run](TestRun.png)
