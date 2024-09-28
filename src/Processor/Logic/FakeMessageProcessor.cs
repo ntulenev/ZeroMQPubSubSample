@@ -13,16 +13,19 @@ public sealed class FakeMessageProcessor : IMessageProcessor
     /// <inheritdoc/>
     public FakeMessageProcessor(ILogger<FakeMessageProcessor> logger)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        ArgumentNullException.ThrowIfNull(logger);
+        _logger = logger;
 
         _logger.LogDebug("FakeMessageProcessor created.");
     }
 
     public Task ProcessAsync(Message message, CancellationToken ct)
     {
+        ArgumentNullException.ThrowIfNull(message);
+
         _logger.LogInformation("Processing {message}", message);
         return Task.CompletedTask;
     }
 
-    private readonly ILogger<FakeMessageProcessor> _logger;
+    private readonly ILogger _logger;
 }

@@ -28,18 +28,15 @@ public sealed class MessageReceiver : IMessageReceiver
     /// </summary>
     public MessageReceiver(ILogger<MessageReceiver> logger, IOptions<MessageReceiverConfiguration> config)
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-        if (config is null)
-        {
-            throw new ArgumentNullException(nameof(config));
-        }
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(config);
 
         if (config.Value is null)
         {
             throw new ArgumentException("Configuration is not set.", nameof(config));
         }
 
+        _logger = logger;
         _config = config.Value;
 
         _logger.LogDebug("MessageReceiver created.");
@@ -58,8 +55,10 @@ public sealed class MessageReceiver : IMessageReceiver
         var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
         ct.Register(() => stopperTcs.SetCanceled());
 
-        while (!ct.IsCancellationRequested)
+        while (true)
         {
+            ct.ThrowIfCancellationRequested();
+
             yield return await Task.WhenAny(Task.Run(() =>
             {
                 try
@@ -90,6 +89,6 @@ public sealed class MessageReceiver : IMessageReceiver
         return transport.FromTransport();
     }
 
-    private readonly ILogger<MessageReceiver> _logger;
+    private readonly ILogger _logger;
     private readonly MessageReceiverConfiguration _config;
 }
