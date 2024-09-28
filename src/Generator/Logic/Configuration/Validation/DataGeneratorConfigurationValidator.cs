@@ -5,7 +5,7 @@ namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation;
 /// <summary>
 /// Validator for <see cref="DataGeneratorConfiguration"/>.
 /// </summary>
-public class DataGeneratorConfigurationValidator : IValidateOptions<DataGeneratorConfiguration>
+public sealed class DataGeneratorConfigurationValidator : IValidateOptions<DataGeneratorConfiguration>
 {
     /// <summary>
     /// Validates <see cref="DataGeneratorConfiguration"/>.

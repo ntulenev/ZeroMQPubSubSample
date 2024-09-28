@@ -10,7 +10,7 @@ using ZeroMQPubSubSample.Generator.Logic.Configuration;
 namespace ZeroMQPubSubSample.Generator.Logic;
 
 /// <inheritdoc/>
-public class MessageMemoryChannel : IMessageMemoryChannel
+public sealed class MessageMemoryChannel : IMessageMemoryChannel
 {
     /// <summary>
     /// Creates <see cref="MessageMemoryChannel"/>.

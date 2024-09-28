@@ -5,7 +5,7 @@ namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation;
 /// <summary>
 /// Validator for <see cref="MessageMemoryChannelConfiguration"/>.
 /// </summary>
-public class MessageMemoryChannelConfigurationValidator : IValidateOptions<MessageMemoryChannelConfiguration>
+public sealed class MessageMemoryChannelConfigurationValidator : IValidateOptions<MessageMemoryChannelConfiguration>
 {
     /// <summary>
     /// Validates <see cref="MessageMemoryChannelConfiguration"/>.

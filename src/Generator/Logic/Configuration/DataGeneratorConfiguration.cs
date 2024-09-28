@@ -3,7 +3,7 @@
 /// <summary>
 /// Configuration for <see cref="DataGenerator"/>.
 /// </summary>
-public class DataGeneratorConfiguration
+public sealed class DataGeneratorConfiguration
 {
     /// <summary>
     /// Data generation period.

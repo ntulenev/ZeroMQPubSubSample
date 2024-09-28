@@ -3,7 +3,7 @@
 /// <summary>
 /// Configuration for <see cref="MessageMemoryChannel"/>.
 /// </summary>
-public class MessageMemoryChannelConfiguration
+public sealed class MessageMemoryChannelConfiguration
 {
     /// <summary>
     /// In-memory channel max size.

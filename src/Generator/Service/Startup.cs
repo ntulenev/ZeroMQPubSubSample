@@ -8,7 +8,7 @@ using ZeroMQPubSubSample.Generator.Service.Services;
 
 namespace ZeroMQPubSubSample.Generator.Service;
 
-public class Startup
+public sealed class Startup
 {
     public Startup(IConfiguration configuration)
     {

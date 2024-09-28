@@ -5,7 +5,7 @@ namespace ZeroMQPubSubSample.Generator.Service.Services;
 /// <summary>
 /// Hosted service that generates test data messages.
 /// </summary>
-public class GenerationService : IHostedService
+public sealed class GenerationService : IHostedService
 {
     public GenerationService(ILogger<GenerationService> logger,
                          IHostApplicationLifetime hostApplicationLifetime,

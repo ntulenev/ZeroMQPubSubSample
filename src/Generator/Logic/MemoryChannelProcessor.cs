@@ -5,7 +5,7 @@ using ZeroMQPubSubSample.Generator.Abstractions;
 namespace ZeroMQPubSubSample.Generator.Logic;
 
 /// <inheritdoc/>
-public class MemoryChannelProcessor : IMemoryChannelProcessor
+public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
 {
     /// <summary>
     /// Creates <see cref="MemoryChannelProcessor"/>.

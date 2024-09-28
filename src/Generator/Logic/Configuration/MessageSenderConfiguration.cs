@@ -3,7 +3,7 @@
 /// <summary>
 /// Configuration for <see cref="MessageSender"/>.
 /// </summary>
-public class MessageSenderConfiguration
+public sealed class MessageSenderConfiguration
 {
     /// <summary>
     /// Limit on the maximum number of outstanding messages ØMQ shall queue in memory.
