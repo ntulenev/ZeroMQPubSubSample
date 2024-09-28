@@ -21,20 +21,10 @@ public sealed class DataGenerator : IDataGenerator
                          IOptions<DataGeneratorConfiguration> options,
                          IMessageMemoryChannel channel)
     {
-        if (logger is null)
-        {
-            throw new ArgumentNullException(nameof(logger));
-        }
 
-        if (options is null)
-        {
-            throw new ArgumentNullException(nameof(options));
-        }
-
-        if (channel is null)
-        {
-            throw new ArgumentNullException(nameof(channel));
-        }
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(options);
+        ArgumentNullException.ThrowIfNull(channel);
 
         if (options.Value is null)
         {
@@ -53,8 +43,10 @@ public sealed class DataGenerator : IDataGenerator
     {
         try
         {
-            while (!ct.IsCancellationRequested)
+            while (true)
             {
+                ct.ThrowIfCancellationRequested();
+
                 await Task.Delay(_config.GenerationPeriodSeconds, ct).ConfigureAwait(false);
 
                 var msg = new TargetedMessage(_config.TaskId, Guid.NewGuid().ToString(), _config.Destination);
@@ -70,7 +62,7 @@ public sealed class DataGenerator : IDataGenerator
         }
     }
 
-    private readonly ILogger<DataGenerator> _logger;
+    private readonly ILogger _logger;
     private readonly IMessageMemoryChannel _channel;
     private readonly DataGeneratorConfiguration _config;
 }

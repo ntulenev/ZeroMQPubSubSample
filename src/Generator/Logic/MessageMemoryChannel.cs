@@ -21,15 +21,8 @@ public sealed class MessageMemoryChannel : IMessageMemoryChannel
                                 ILogger<MessageMemoryChannel> logger,
                                 IOptions<MessageMemoryChannelConfiguration> options)
     {
-        if (logger is null)
-        {
-            throw new ArgumentNullException(nameof(logger));
-        }
-
-        if (options is null)
-        {
-            throw new ArgumentNullException(nameof(options));
-        }
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(options);
 
         if (options.Value is null)
         {
@@ -55,5 +48,5 @@ public sealed class MessageMemoryChannel : IMessageMemoryChannel
     }
 
     private readonly Channel<TargetedMessage> _channel;
-    private readonly ILogger<MessageMemoryChannel> _logger;
+    private readonly ILogger _logger;
 }

@@ -28,15 +28,8 @@ public class MessageSender : IMessageSender, IDisposable
                          ILogger<MessageSender> logger,
                          IOptions<MessageSenderConfiguration> options)
     {
-        if (logger is null)
-        {
-            throw new ArgumentNullException(nameof(logger));
-        }
-
-        if (options is null)
-        {
-            throw new ArgumentNullException(nameof(options));
-        }
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(options);
 
         if (options.Value is null)
         {
@@ -56,10 +49,7 @@ public class MessageSender : IMessageSender, IDisposable
     /// <inheritdoc/>
     public async Task SendMessageAsync(Domain.TargetedMessage message, CancellationToken ct)
     {
-        if (message is null)
-        {
-            throw new ArgumentNullException(nameof(message));
-        }
+        ArgumentNullException.ThrowIfNull(message);
 
         ThrowIfDisposed();
 
@@ -72,9 +62,11 @@ public class MessageSender : IMessageSender, IDisposable
         var sendTask = Task.Run(() =>
         {
 
-            _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", data, _config.Address, message.Destination);
+            _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", 
+                data, _config.Address, message.Destination);
             _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
-            _logger.LogDebug("Message {data} has been sent to {address} / {destination}.", data, _config.Address, message.Destination);
+            _logger.LogDebug("Message {data} has been sent to {address} / {destination}.", 
+                data, _config.Address, message.Destination);
 
         }, ct);
 
@@ -123,7 +115,7 @@ public class MessageSender : IMessageSender, IDisposable
         }
     }
 
-    private readonly ILogger<MessageSender> _logger;
+    private readonly ILogger _logger;
     private readonly MessageSenderConfiguration _config;
     private readonly PublisherSocket _pubSocket;
     private bool _isDisposed;

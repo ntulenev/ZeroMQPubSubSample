@@ -19,20 +19,9 @@ public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
                                     IMessageSender sender
                                  )
     {
-        if (logger is null)
-        {
-            throw new ArgumentNullException(nameof(logger));
-        }
-
-        if (channel is null)
-        {
-            throw new ArgumentNullException(nameof(channel));
-        }
-
-        if (sender is null)
-        {
-            throw new ArgumentNullException(nameof(sender));
-        }
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(channel);
+        ArgumentNullException.ThrowIfNull(sender);
 
         _logger = logger;
         _channel = channel;
@@ -66,7 +55,7 @@ public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
         }
     }
 
-    private readonly ILogger<MemoryChannelProcessor> _logger;
+    private readonly ILogger _logger;
     private readonly IMessageMemoryChannel _channel;
     private readonly IMessageSender _sender;
 }
