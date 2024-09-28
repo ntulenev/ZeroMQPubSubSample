@@ -3,12 +3,15 @@
 namespace ZeroMQPubSubSample.Processor.Abstractions;
 
 /// <summary>
-/// Process messages from <see cref="IMessageReceiver"/>.
+/// Represents a service that processes messages received from an <see cref="IMessageReceiver"/>.
 /// </summary>
 public interface IMessageProcessor
 {
     /// <summary>
-    /// Process message.
+    /// Processes the given message asynchronously.
     /// </summary>
+    /// <param name="message">The <see cref="Message"/> to be processed.</param>
+    /// <param name="ct">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task ProcessAsync(Message message, CancellationToken ct);
 }
