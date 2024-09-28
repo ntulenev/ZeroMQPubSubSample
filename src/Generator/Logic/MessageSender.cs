@@ -57,16 +57,16 @@ public class MessageSender : IMessageSender, IDisposable
 
         _logger.LogDebug("Serializing message");
 
-        var data = Serialize(message);
+        var payload = Serialize(message);
 
         var sendTask = Task.Run(() =>
         {
 
             _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", 
-                data, _config.Address, message.Destination);
-            _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
+                payload, _config.Address, message.Destination);
+            _pubSocket.SendMoreFrame(message.Destination).SendFrame(payload);
             _logger.LogDebug("Message {data} has been sent to {address} / {destination}.", 
-                data, _config.Address, message.Destination);
+                payload, _config.Address, message.Destination);
 
         }, ct);
 

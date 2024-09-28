@@ -12,9 +12,13 @@ public sealed class SenderService : IHostedService
                          IMemoryChannelProcessor processor
                                 )
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
-        _processor = processor ?? throw new ArgumentNullException(nameof(processor));
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
+        ArgumentNullException.ThrowIfNull(processor);
+
+        _logger = logger;
+        _hostApplicationLifetime = hostApplicationLifetime;
+        _processor = processor;
 
         _logger.LogDebug("SenderService created.");
     }
@@ -24,7 +28,8 @@ public sealed class SenderService : IHostedService
         try
         {
             _stopper = Task.Run(async () => await _processor
-                                        .ProcessAsync(_hostApplicationLifetime.ApplicationStopping).ConfigureAwait(false));
+                                        .ProcessAsync(_hostApplicationLifetime.ApplicationStopping).ConfigureAwait(false)
+                                );
             _stopper.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted);
         }
         catch (Exception ex)
@@ -53,7 +58,7 @@ public sealed class SenderService : IHostedService
         }
     }
 
-    private readonly ILogger<SenderService> _logger;
+    private readonly ILogger _logger;
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly IMemoryChannelProcessor _processor;
     private Task _stopper = default!;

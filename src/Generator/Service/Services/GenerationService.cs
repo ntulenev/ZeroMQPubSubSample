@@ -7,14 +7,19 @@ namespace ZeroMQPubSubSample.Generator.Service.Services;
 /// </summary>
 public sealed class GenerationService : IHostedService
 {
-    public GenerationService(ILogger<GenerationService> logger,
+    public GenerationService(
+                         ILogger<GenerationService> logger,
                          IHostApplicationLifetime hostApplicationLifetime,
                          IEnumerable<IDataGenerator> generators
                                 )
     {
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
+        ArgumentNullException.ThrowIfNull(generators);
+
         _logger = logger;
-        _hostApplicationLifetime = hostApplicationLifetime ?? throw new ArgumentNullException(nameof(hostApplicationLifetime));
-        _generators = generators ?? throw new ArgumentNullException(nameof(generators));
+        _hostApplicationLifetime = hostApplicationLifetime;
+        _generators = generators;
 
         _logger.LogDebug("GenerationService created.");
     }
@@ -61,7 +66,7 @@ public sealed class GenerationService : IHostedService
         }
     }
 
-    private readonly ILogger<GenerationService> _logger;
+    private readonly ILogger _logger;
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly IEnumerable<IDataGenerator> _generators;
     private Task _stopper = default!;

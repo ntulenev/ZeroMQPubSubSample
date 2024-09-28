@@ -14,9 +14,9 @@ public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
     /// <param name="channel">Channel with messages.</param>
     /// <param name="sender">Message sender.</param>
     public MemoryChannelProcessor(
-                                    ILogger<MemoryChannelProcessor> logger,
-                                    IMessageMemoryChannel channel,
-                                    IMessageSender sender
+                                  ILogger<MemoryChannelProcessor> logger,
+                                  IMessageMemoryChannel channel,
+                                  IMessageSender sender
                                  )
     {
         ArgumentNullException.ThrowIfNull(logger);
@@ -42,7 +42,7 @@ public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
                     _logger.LogDebug("Sending message {message}", msg);
                     await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is not OperationCanceledException)
                 {
                     _logger.LogError(ex, "Error on sending message {message}", msg);
                     throw;

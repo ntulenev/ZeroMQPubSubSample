@@ -69,7 +69,6 @@ public sealed class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
-
         app.UseHealthChecks("/hc");
     }
 }
