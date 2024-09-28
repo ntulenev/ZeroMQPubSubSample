@@ -8,15 +8,15 @@ public sealed class MessageReceiverConfiguration
     /// <summary>
     /// NetMQ tcp socket address.
     /// </summary>
-    public string Address { get; set; } = default!;
+    public required string Address { get; init; }
 
     /// <summary>
     /// Limit on the maximum number of incoming messages ØMQ shall queue in memory.
     /// </summary>
-    public int ReceiveHighWatermark { get; set; }
+    public int ReceiveHighWatermark { get; init; }
 
     /// <summary>
     /// Targeted queue.
     /// </summary>
-    public string Topic { get; set; } = default!;
+    public required string Topic { get; init; }
 }
