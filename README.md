@@ -81,6 +81,6 @@ The **Data Processing Service** subscribes to the data published by the Data Gen
   - **Example**: The processor is configured to listen to the `"Main"` topic.
 
 
-### Output
+## Output
 
 ![Test run](TestRun.png)
