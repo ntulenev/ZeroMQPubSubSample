@@ -3,15 +3,16 @@
 namespace ZeroMQPubSubSample.Generator.Abstractions;
 
 /// <summary>
-///Sends data to other systems.
+/// Defines a contract for sending messages to external systems or services.
 /// </summary>
 public interface IMessageSender
 {
     /// <summary>
-    /// Sends message to outer systems.
+    /// Asynchronously sends a message to an external system.
     /// </summary>
-    /// <param name="message">Message.</param>
-    /// <param name="ct">Cancellation token.</param>
-    /// <returns></returns>
+    /// <param name="message">The <see cref="TargetedMessage"/> to be sent.</param>
+    /// <param name="ct">A <see cref="CancellationToken"/> to signal the cancellation of the operation if necessary.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous send operation.</returns>
     public Task SendMessageAsync(TargetedMessage message, CancellationToken ct);
 }
+

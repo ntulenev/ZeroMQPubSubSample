@@ -1,14 +1,15 @@
 ﻿namespace ZeroMQPubSubSample.Generator.Abstractions;
 
 /// <summary>
-/// Worker that reads data from channel and does processing.
+/// Represents a worker that continuously reads data from an in-memory channel and processes it.
 /// </summary>
 public interface IMemoryChannelProcessor
 {
     /// <summary>
-    /// Process data.
+    /// Asynchronously processes data read from the in-memory channel until cancellation is requested.
     /// </summary>
-    /// <param name="ct">Cancellation token.</param>
+    /// <param name="ct">A <see cref="CancellationToken"/> that can be used to cancel the operation.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous processing operation.</returns>
     public Task ProcessAsync(CancellationToken ct);
-
 }
+
