@@ -19,16 +19,6 @@ public static class MessageConvertor
     {
         ArgumentNullException.ThrowIfNull(msg);
 
-        if (msg.Value is null)
-        {
-            throw new ArgumentException("Message Value is not set.", nameof(msg));
-        }
-
-        if (string.IsNullOrWhiteSpace(msg.Value))
-        {
-            throw new ArgumentException("Message Value is empty or contains only whitespaces.", nameof(msg));
-        }
-
         return new Domain.Message(msg.Key, msg.Value);
     }
 
