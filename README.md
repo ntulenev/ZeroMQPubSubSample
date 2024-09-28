@@ -22,8 +22,6 @@ graph TD
 ## Components
 
 - **Data Generation Service**: Responsible for generating data through multiple tasks. These tasks push data through a channel to the NetMQ Publisher.
-- **NetMQ Publisher**: Publishes the data over TCP.
-- **NetMQ Subscriber**: Subscribes to the data sent by the publisher.
 - **Data Processing Service**: Processes the received data from the NetMQ Subscriber.
 
 ## Configuration
@@ -58,8 +56,31 @@ The **Data Generation Service** is configured using the following structure in t
   - **Example**: TaskId `1` for Generator1.
 - **Destination**: The topic where the generated data will be sent.
   - **Example**: `"Main"`.
+    
+### Data Processing Service
+
+The **Data Processing Service** subscribes to the data published by the Data Generation Service using the following structure in the configuration file.
+
+```json
+{
+  "MessageReceiverConfiguration": {
+    "Address": "tcp://localhost:12345",
+    "ReceiveHighWatermark": 100,
+    "Topic": "Main"
+  }
+}
+```
+
+### Explanation
+
+- **Address**: Specifies the TCP address that the processor uses to connect to the NetMQ publisher.
+  - **Example**: `tcp://localhost:12345` means the processor is listening on the local machine (`localhost`) at port `12345`.
+- **ReceiveHighWatermark**: Defines the maximum number of incoming messages that can be queued for processing. If the limit is reached, new messages will be discarded.
+  - **Example**: A high watermark of `100` means the processor can queue up to 100 messages.
+- **Topic**: Specifies the topic for which the processor will receive messages. This topic should match the destination topic used in the Data Generation Service configuration.
+  - **Example**: The processor is configured to listen to the `"Main"` topic.
 
 
-### Example
+### Output
 
 ![Test run](TestRun.png)
