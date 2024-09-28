@@ -16,81 +16,80 @@ using Newtonsoft.Json;
 using Transport = ZeroMQPubSubSample.Common.Serialization;
 using Domain = ZeroMQPubSubSample.Common.Models;
 
-namespace ZeroMQPubSubSample.Processor.Logic
+namespace ZeroMQPubSubSample.Processor.Logic;
+
+/// <summary>
+/// ZeroMQ message receiver.
+/// </summary>
+public class MessageReceiver : IMessageReceiver
 {
     /// <summary>
-    /// ZeroMQ message receiver.
+    /// Creates <see cref="MessageReceiver"/>.
     /// </summary>
-    public class MessageReceiver : IMessageReceiver
+    public MessageReceiver(ILogger<MessageReceiver> logger, IOptions<MessageReceiverConfiguration> config)
     {
-        /// <summary>
-        /// Creates <see cref="MessageReceiver"/>.
-        /// </summary>
-        public MessageReceiver(ILogger<MessageReceiver> logger, IOptions<MessageReceiverConfiguration> config)
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+        if (config is null)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-            if (config is null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
-
-            if (config.Value is null)
-            {
-                throw new ArgumentException("Configuration is not set.", nameof(config));
-            }
-
-            _config = config.Value;
-
-            _logger.LogDebug("MessageReceiver created.");
+            throw new ArgumentNullException(nameof(config));
         }
 
-        /// <inheritdoc/>
-        public async IAsyncEnumerable<Domain.Message> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
+        if (config.Value is null)
         {
-            using var subSocket = new SubscriberSocket();
-
-            subSocket.Options.ReceiveHighWatermark = _config.ReceiveHighWatermark;
-
-            subSocket.Connect(_config.Address);
-            subSocket.Subscribe(_config.Topic);
-
-            var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
-            ct.Register(() => stopperTcs.SetCanceled());
-
-            while (!ct.IsCancellationRequested)
-            {
-                yield return await Task.WhenAny(Task.Run(() =>
-                {
-                    try
-                    {
-                        var topic = subSocket.ReceiveFrameString();
-                        var data = subSocket.ReceiveFrameString();
-
-                        _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
-
-                        return Deserialize(data);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Error on receive message.");
-                        throw;
-                    }
-
-                }, ct), stopperTcs.Task).Unwrap();
-            }
+            throw new ArgumentException("Configuration is not set.", nameof(config));
         }
 
-        private static Domain.Message Deserialize(string message)
-        {
-            var transport = JsonConvert.DeserializeObject<Transport.Message>(message);
+        _config = config.Value;
 
-            Debug.Assert(transport is not null);
-
-            return transport.FromTransport();
-        }
-
-        private readonly ILogger<MessageReceiver> _logger;
-        private readonly MessageReceiverConfiguration _config;
+        _logger.LogDebug("MessageReceiver created.");
     }
+
+    /// <inheritdoc/>
+    public async IAsyncEnumerable<Domain.Message> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
+    {
+        using var subSocket = new SubscriberSocket();
+
+        subSocket.Options.ReceiveHighWatermark = _config.ReceiveHighWatermark;
+
+        subSocket.Connect(_config.Address);
+        subSocket.Subscribe(_config.Topic);
+
+        var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
+        ct.Register(() => stopperTcs.SetCanceled());
+
+        while (!ct.IsCancellationRequested)
+        {
+            yield return await Task.WhenAny(Task.Run(() =>
+            {
+                try
+                {
+                    var topic = subSocket.ReceiveFrameString();
+                    var data = subSocket.ReceiveFrameString();
+
+                    _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
+
+                    return Deserialize(data);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error on receive message.");
+                    throw;
+                }
+
+            }, ct), stopperTcs.Task).Unwrap();
+        }
+    }
+
+    private static Domain.Message Deserialize(string message)
+    {
+        var transport = JsonConvert.DeserializeObject<Transport.Message>(message);
+
+        Debug.Assert(transport is not null);
+
+        return transport.FromTransport();
+    }
+
+    private readonly ILogger<MessageReceiver> _logger;
+    private readonly MessageReceiverConfiguration _config;
 }

@@ -1,7 +1,6 @@
-﻿namespace ZeroMQPubSubSample.Common.Models
-{
-    /// <summary>
-    /// Represents example message.
-    /// </summary>
-    public record Message(long Key, string Value);
-}
+﻿namespace ZeroMQPubSubSample.Common.Models;
+
+/// <summary>
+/// Represents example message.
+/// </summary>
+public record Message(long Key, string Value);

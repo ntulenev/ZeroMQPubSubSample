@@ -1,13 +1,12 @@
-﻿namespace ZeroMQPubSubSample.Generator.Abstractions
+﻿namespace ZeroMQPubSubSample.Generator.Abstractions;
+
+/// <summary>
+/// Generates test messages.
+/// </summary>
+public interface IDataGenerator
 {
     /// <summary>
-    /// Generates test messages.
+    /// Start test messages generation.
     /// </summary>
-    public interface IDataGenerator
-    {
-        /// <summary>
-        /// Start test messages generation.
-        /// </summary>
-        public Task GenerateDataAsync(CancellationToken ct);
-    }
+    public Task GenerateDataAsync(CancellationToken ct);
 }
