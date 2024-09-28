@@ -49,7 +49,7 @@ public sealed class DataGenerator : IDataGenerator
 
                 await Task.Delay(_config.GenerationPeriodSeconds, ct).ConfigureAwait(false);
 
-                var msg = new TargetedMessage(_config.TaskId, Guid.NewGuid().ToString(), _config.Destination);
+                var msg = CreateMessage();
 
                 _logger.LogInformation("Creating new data {message}", msg);
 
@@ -60,6 +60,12 @@ public sealed class DataGenerator : IDataGenerator
         {
             // Skip
         }
+    }
+
+    private TargetedMessage CreateMessage()
+    {
+        var payload = Guid.NewGuid().ToString();
+        return new TargetedMessage(_config.TaskId, payload, _config.Destination);
     }
 
     private readonly ILogger _logger;
