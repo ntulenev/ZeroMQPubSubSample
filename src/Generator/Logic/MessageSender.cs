@@ -65,7 +65,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
             using var _ = _logger.BeginScope("Sending message {message}", message);
 
-            _logger.LogDebug("Seralizing message.", message);
+            _logger.LogDebug("Serializing message");
 
             var data = Serialize(message);
 
@@ -74,7 +74,7 @@ namespace ZeroMQPubSubSample.Generator.Logic
 
                 _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", data, _config.Address, message.Destination);
                 _pubSocket.SendMoreFrame(message.Destination).SendFrame(data);
-                _logger.LogDebug("Message {data} has been sended to {address} / {destination}.", data, _config.Address, message.Destination);
+                _logger.LogDebug("Message {data} has been sent to {address} / {destination}.", data, _config.Address, message.Destination);
 
             }, ct);
 

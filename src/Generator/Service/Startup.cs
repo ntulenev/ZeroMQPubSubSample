@@ -40,14 +40,14 @@ namespace ZeroMQPubSubSample.Generator.Service
 
         private IEnumerable<IDataGenerator> CreateGenerators(IServiceProvider serviceProvider)
         {
-            List<IDataGenerator> generators = new();
+            List<IDataGenerator> generators = [];
             IConfigurationSection generatorConfigs = Configuration.GetSection("Generators");
 
             var validator = serviceProvider.GetRequiredService<IValidateOptions<DataGeneratorConfiguration>>();
 
             foreach (IConfigurationSection generatorConfig in generatorConfigs.GetChildren())
             {
-                var configData = generatorConfig.Get<DataGeneratorConfiguration>();
+                var configData = generatorConfig.Get<DataGeneratorConfiguration>()!;
                 var options = Options.Create(configData);
 
                 // Crutch to use IValidateOptions in manual generation logic.
