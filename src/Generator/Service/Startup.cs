@@ -8,15 +8,8 @@ using ZeroMQPubSubSample.Generator.Service.Services;
 
 namespace ZeroMQPubSubSample.Generator.Service;
 
-public sealed class Startup
+public sealed class Startup(IConfiguration Configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddHealthChecks();

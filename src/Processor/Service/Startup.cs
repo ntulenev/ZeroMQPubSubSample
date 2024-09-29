@@ -26,7 +26,6 @@ public class Startup(IConfiguration Configuration)
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
-
         app.UseHealthChecks("/hc");
     }
 }
