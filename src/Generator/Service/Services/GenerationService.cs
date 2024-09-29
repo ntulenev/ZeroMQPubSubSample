@@ -3,15 +3,27 @@
 namespace ZeroMQPubSubSample.Generator.Service.Services;
 
 /// <summary>
-/// Hosted service that generates test data messages.
+/// Service responsible for coordinating data generation using multiple <see cref="IDataGenerator"/> instances.
+/// Implements the <see cref="IHostedService"/> interface to start and stop the service within a host.
 /// </summary>
 public sealed class GenerationService : IHostedService
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GenerationService"/> class.
+    /// </summary>
+    /// <param name="logger">The logger instance used for logging messages.</param>
+    /// <param name="hostApplicationLifetime">Provides events for the application
+    /// lifecycle and allows for graceful shutdowns.</param>
+    /// <param name="generators">A collection of <see cref="IDataGenerator"/> instances that generate data asynchronously.</param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when any of the parameters (<paramref name="logger"/>, <paramref name="hostApplicationLifetime"/>, 
+    /// or <paramref name="generators"/>) is <c>null</c>.
+    /// </exception>
     public GenerationService(
-                         ILogger<GenerationService> logger,
-                         IHostApplicationLifetime hostApplicationLifetime,
-                         IEnumerable<IDataGenerator> generators
-                                )
+        ILogger<GenerationService> logger,
+        IHostApplicationLifetime hostApplicationLifetime,
+        IEnumerable<IDataGenerator> generators
+    )
     {
         ArgumentNullException.ThrowIfNull(logger);
         ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
@@ -24,6 +36,15 @@ public sealed class GenerationService : IHostedService
         _logger.LogDebug("GenerationService created.");
     }
 
+    /// <summary>
+    /// Starts the service and begins executing data generation tasks concurrently.
+    /// </summary>
+    /// <param name="cancellationToken">Propagates notification that the operation should be canceled.</param>
+    /// <returns>A completed <see cref="Task"/> when the startup process is complete.</returns>
+    /// <remarks>
+    /// The service starts multiple asynchronous data generation tasks using the provided <see cref="IDataGenerator"/> instances.
+    /// If any task fails, the service triggers an application shutdown.
+    /// </remarks>
     public Task StartAsync(CancellationToken cancellationToken)
     {
         try
@@ -49,6 +70,15 @@ public sealed class GenerationService : IHostedService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Stops the service and ensures that all ongoing data generation tasks complete before termination.
+    /// </summary>
+    /// <param name="cancellationToken">Propagates notification that the operation should be canceled.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous stop operation.</returns>
+    /// <remarks>
+    /// The service waits for all data generation tasks to complete before stopping. If an exception occurs during stopping,
+    /// it is logged.
+    /// </remarks>
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Stopping service.");
@@ -71,3 +101,4 @@ public sealed class GenerationService : IHostedService
     private readonly IEnumerable<IDataGenerator> _generators;
     private Task _stopper = default!;
 }
+
