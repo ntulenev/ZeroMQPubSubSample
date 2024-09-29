@@ -8,16 +8,8 @@ using ZeroMQPubSubSample.Processor.Service.Services;
 
 namespace ZeroMQPubSubSample.Processor.Service;
 
-public class Startup
+public class Startup(IConfiguration Configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddHealthChecks();
@@ -31,7 +23,6 @@ public class Startup
         services.AddHostedService<ReceiverService>();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();

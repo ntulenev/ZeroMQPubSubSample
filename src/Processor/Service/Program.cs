@@ -6,4 +6,4 @@ var builder = Host.CreateDefaultBuilder(args)
                     webBuilder.UseStartup<Startup>();
                 });
 var app = builder.Build();
-app.Run();
+await app.RunAsync();
