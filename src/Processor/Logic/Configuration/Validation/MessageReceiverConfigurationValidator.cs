@@ -10,7 +10,7 @@ public sealed class MessageReceiverConfigurationValidator : IValidateOptions<Mes
     /// <summary>
     /// Validates <see cref="MessageReceiverConfiguration"/>.
     /// </summary>
-    public ValidateOptionsResult Validate(string name, MessageReceiverConfiguration options)
+    public ValidateOptionsResult Validate(string? name, MessageReceiverConfiguration options)
     {
         if (options is null)
         {

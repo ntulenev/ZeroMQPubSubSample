@@ -10,7 +10,7 @@ public sealed class MessageMemoryChannelConfigurationValidator : IValidateOption
     /// <summary>
     /// Validates <see cref="MessageMemoryChannelConfiguration"/>.
     /// </summary>
-    public ValidateOptionsResult Validate(string name, MessageMemoryChannelConfiguration options)
+    public ValidateOptionsResult Validate(string? name, MessageMemoryChannelConfiguration options)
     {
         if (options is null)
         {

@@ -10,7 +10,7 @@ public sealed class DataGeneratorConfigurationValidator : IValidateOptions<DataG
     /// <summary>
     /// Validates <see cref="DataGeneratorConfiguration"/>.
     /// </summary>
-    public ValidateOptionsResult Validate(string name, DataGeneratorConfiguration options)
+    public ValidateOptionsResult Validate(string? name, DataGeneratorConfiguration options)
     {
         if (options is null)
         {
