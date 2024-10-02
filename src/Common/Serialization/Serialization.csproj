@@ -9,6 +9,9 @@
 	<Platforms>x64</Platforms>
 	<RootNamespace>ZeroMQPubSubSample.Common.Serialization</RootNamespace>
 	<AssemblyName>ZeroMQPubSubSample.Common.Serialization</AssemblyName>
+	<NuGetAudit>true</NuGetAudit>
+	<NuGetAuditMode>all</NuGetAuditMode>
+	<NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
 
   <ItemGroup>

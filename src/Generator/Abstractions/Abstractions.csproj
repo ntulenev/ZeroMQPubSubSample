@@ -9,6 +9,9 @@
 	<Platforms>x64</Platforms>
     <RootNamespace>ZeroMQPubSubSample.Generator.Abstractions</RootNamespace>
     <AssemblyName>ZeroMQPubSubSample.Generator.Abstractions</AssemblyName>
+	<NuGetAudit>true</NuGetAudit>
+	<NuGetAuditMode>all</NuGetAuditMode>
+	<NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
 
   <ItemGroup>

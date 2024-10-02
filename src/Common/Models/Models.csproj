@@ -9,6 +9,9 @@
 	<Platforms>x64</Platforms>
 	<RootNamespace>ZeroMQPubSubSample.Common.Models</RootNamespace>
 	<AssemblyName>ZeroMQPubSubSample.Common.Models</AssemblyName>
+	<NuGetAudit>true</NuGetAudit>
+	<NuGetAuditMode>all</NuGetAuditMode>
+	<NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
 
 </Project>

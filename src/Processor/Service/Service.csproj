@@ -8,6 +8,9 @@
 	<Platforms>x64</Platforms>
     <RootNamespace>ZeroMQPubSubSample.Processor.Service</RootNamespace>
     <AssemblyName>ZeroMQPubSubSample.Processor.Service</AssemblyName>
+  	<NuGetAudit>true</NuGetAudit>
+	<NuGetAuditMode>all</NuGetAuditMode>
+	<NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Models\Models.csproj" />
