@@ -16,6 +16,7 @@ public class Startup(IConfiguration Configuration)
 
         services.AddSingleton<IMessageProcessor, FakeMessageProcessor>();
         services.AddSingleton<IMessageReceiver, MessageReceiver>();
+        services.AddSingleton<IReceiveHandler, ReceiveHandler>();
 
         services.Configure<MessageReceiverConfiguration>(Configuration.GetSection(nameof(MessageReceiverConfiguration)));
         services.AddSingleton<IValidateOptions<MessageReceiverConfiguration>, MessageReceiverConfigurationValidator>();
