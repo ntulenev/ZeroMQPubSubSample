@@ -1,4 +1,5 @@
-﻿using ZeroMQPubSubSample.Processor.Abstractions;
+﻿using System.Reflection.Metadata;
+using ZeroMQPubSubSample.Processor.Abstractions;
 
 namespace ZeroMQPubSubSample.Processor.Service.Services;
 
@@ -23,19 +24,16 @@ public sealed class ReceiverService : IHostedService
     public ReceiverService(
         ILogger<ReceiverService> logger,
         IHostApplicationLifetime hostApplicationLifetime,
-        IMessageReceiver receiver,
-        IMessageProcessor processor
+        IReceiveHandler handler
     )
     {
         ArgumentNullException.ThrowIfNull(logger);
         ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
-        ArgumentNullException.ThrowIfNull(receiver);
-        ArgumentNullException.ThrowIfNull(processor);
+        ArgumentNullException.ThrowIfNull(handler);
 
         _logger = logger;
         _hostApplicationLifetime = hostApplicationLifetime;
-        _processor = processor;
-        _receiver = receiver;
+        _handler = handler;
 
         _logger.LogInformation("ReceiverService created.");
     }
@@ -55,13 +53,7 @@ public sealed class ReceiverService : IHostedService
         {
             _stopper = Task.Run(async () =>
             {
-                //TODO Change on handler;
-                await foreach (var message in _receiver.ReceiveAsync(_hostApplicationLifetime.ApplicationStopping)
-                                                      .ConfigureAwait(false))
-                {
-                    _logger.LogDebug("Process message {message}.", message);
-                    await _processor.ProcessAsync(message, _hostApplicationLifetime.ApplicationStopping);
-                }
+                await _handler.HandleAsync(_hostApplicationLifetime.ApplicationStopping);
             });
             _stopper.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted);
         }
@@ -101,8 +93,7 @@ public sealed class ReceiverService : IHostedService
 
     private readonly ILogger _logger;
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
-    private readonly IMessageReceiver _receiver;
-    private readonly IMessageProcessor _processor;
+    private readonly IReceiveHandler _handler;
     private Task _stopper = default!;
 }
 
