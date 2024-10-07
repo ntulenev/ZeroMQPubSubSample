@@ -52,7 +52,7 @@ public sealed class MessageReceiver : IMessageReceiver
     }
 
 
-    private (string topic,string payload) ReceiveData(SubscriberSocket subSocket)
+    private static (string topic, string payload) ReceiveData(SubscriberSocket subSocket)
     {
         var topic = subSocket.ReceiveFrameString();
         var data = subSocket.ReceiveFrameString();
