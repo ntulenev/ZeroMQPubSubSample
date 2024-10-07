@@ -79,6 +79,7 @@ public class MessageSender : IMessageSender, IDisposable
 
     private static string Serialize(Domain.Message message)
     {
+        //TODO Move to separate Serializer dependency
         var transport = message.ToTransport();
         return JsonConvert.SerializeObject(transport);
     }

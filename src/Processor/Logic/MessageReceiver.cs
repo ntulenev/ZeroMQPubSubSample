@@ -42,15 +42,19 @@ public sealed class MessageReceiver : IMessageReceiver
         _logger.LogDebug("MessageReceiver created.");
     }
 
+    private SubscriberSocket CreateSocket()
+    {
+        var subSocket = new SubscriberSocket();
+        subSocket.Options.ReceiveHighWatermark = _config.ReceiveHighWatermark;
+        subSocket.Connect(_config.Address);
+        subSocket.Subscribe(_config.Topic);
+        return subSocket;
+    }
+
     /// <inheritdoc/>
     public async IAsyncEnumerable<Domain.Message> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
     {
-        using var subSocket = new SubscriberSocket();
-
-        subSocket.Options.ReceiveHighWatermark = _config.ReceiveHighWatermark;
-
-        subSocket.Connect(_config.Address);
-        subSocket.Subscribe(_config.Topic);
+        using var subSocket = CreateSocket();
 
         var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
         ct.Register(() => stopperTcs.SetCanceled());
@@ -82,6 +86,7 @@ public sealed class MessageReceiver : IMessageReceiver
 
     private static Domain.Message Deserialize(string message)
     {
+        //TODO Move to separate dependency
         var transport = JsonConvert.DeserializeObject<Transport.Message>(message);
 
         Debug.Assert(transport is not null);
