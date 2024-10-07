@@ -51,6 +51,14 @@ public sealed class MessageReceiver : IMessageReceiver
         return subSocket;
     }
 
+
+    private (string topic,string payload) ReceiveData(SubscriberSocket subSocket)
+    {
+        var topic = subSocket.ReceiveFrameString();
+        var data = subSocket.ReceiveFrameString();
+        return (topic, data);
+    }
+
     /// <inheritdoc/>
     public async IAsyncEnumerable<Domain.Message> ReceiveAsync([EnumeratorCancellation] CancellationToken ct)
     {
@@ -67,8 +75,7 @@ public sealed class MessageReceiver : IMessageReceiver
             {
                 try
                 {
-                    var topic = subSocket.ReceiveFrameString();
-                    var data = subSocket.ReceiveFrameString();
+                    var (topic, data) = ReceiveData(subSocket);
 
                     _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
 
