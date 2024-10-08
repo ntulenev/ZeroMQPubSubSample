@@ -55,26 +55,23 @@ public class MessageSender : IMessageSender, IDisposable
 
         using var _ = _logger.BeginScope("Sending message {message}", message);
 
-        _logger.LogDebug("Serializing message");
-
-        var payload = Serialize(message);
-
-        var sendTask = Task.Run(() =>
-        {
-
-            _logger.LogDebug("Sending raw message {data} to {address} / {destination}.", 
-                payload, _config.Address, message.Destination);
-            _pubSocket.SendMoreFrame(message.Destination).SendFrame(payload);
-            _logger.LogDebug("Message {data} has been sent to {address} / {destination}.", 
-                payload, _config.Address, message.Destination);
-
-        }, ct);
+        var sendTask = Task.Run(() => SendMessage(message), ct);
 
         TaskCompletionSource cancelTaskSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
-
         ct.Register(cancelTaskSource.SetResult);
 
         await Task.WhenAny(cancelTaskSource.Task, sendTask).Unwrap().ConfigureAwait(false);
+    }
+
+    private void SendMessage(Domain.TargetedMessage message)
+    {
+        _logger.LogDebug("Serializing message");
+        var payload = Serialize(message);
+        _logger.LogDebug("Sending raw message {data} to {address} / {destination}.",
+               payload, _config.Address, message.Destination);
+        _pubSocket.SendMoreFrame(message.Destination).SendFrame(payload);
+        _logger.LogDebug("Message {data} has been sent to {address} / {destination}.",
+               payload, _config.Address, message.Destination);
     }
 
     private static string Serialize(Domain.Message message)
