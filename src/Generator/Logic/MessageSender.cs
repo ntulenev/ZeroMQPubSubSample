@@ -69,7 +69,8 @@ public class MessageSender : IMessageSender, IDisposable
         var payload = Serialize(message);
         _logger.LogDebug("Sending raw message {data} to {address} / {destination}.",
                payload, _config.Address, message.Destination);
-        _pubSocket.SendMoreFrame(message.Destination).SendFrame(payload);
+        // TODO Add wrapper to add abstract with putting route and payload
+        _pubSocket.SendMoreFrame(message.Destination.Route).SendFrame(payload);
         _logger.LogDebug("Message {data} has been sent to {address} / {destination}.",
                payload, _config.Address, message.Destination);
     }

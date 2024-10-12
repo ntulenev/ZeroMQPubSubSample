@@ -12,7 +12,7 @@ public sealed class TargetedMessage : Message
     /// <summary>
     /// Gets the destination of the message.
     /// </summary>
-    public string Destination { get; }
+    public Destination Destination { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TargetedMessage"/> class.
@@ -23,18 +23,9 @@ public sealed class TargetedMessage : Message
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="destination"/> is <c>null</c>.
     /// </exception>
-    /// <exception cref="ArgumentException">
-    /// Thrown when <paramref name="destination"/> is empty or contains only whitespace characters.
-    /// </exception>
-    public TargetedMessage(long key, string value, string destination) : base(key, value)
+    public TargetedMessage(Key key, string value, Destination destination) : base(key, value)
     {
         ArgumentNullException.ThrowIfNull(destination);
-
-        if (string.IsNullOrWhiteSpace(destination))
-        {
-            throw new ArgumentException("Message destination is empty or contains only whitespaces.", nameof(destination));
-        }
-
         Destination = destination;
     }
 }

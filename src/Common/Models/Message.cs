@@ -8,7 +8,7 @@ public class Message
     /// <summary>
     /// Gets the unique key of the message.
     /// </summary>
-    public long Key { get; }
+    public Key Key { get; }
 
     /// <summary>
     /// Gets the value of the message.
@@ -26,7 +26,7 @@ public class Message
     /// <exception cref="ArgumentException">
     /// Thrown when <paramref name="value"/> is empty or contains only whitespace characters.
     /// </exception>
-    public Message(long key, string value)
+    public Message(Key key, string value)
     {
         ArgumentNullException.ThrowIfNull(value);
 
