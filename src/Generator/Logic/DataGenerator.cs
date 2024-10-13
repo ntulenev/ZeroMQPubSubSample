@@ -65,7 +65,7 @@ public sealed class DataGenerator : IDataGenerator
     private TargetedMessage CreateMessage()
     {
         var payload = Guid.NewGuid().ToString();
-        return new TargetedMessage(new(_config.TaskId), payload, new(_config.Destination));
+        return new TargetedMessage(new(_config.TaskId), new(payload), new(_config.Destination));
     }
 
     private readonly ILogger _logger;

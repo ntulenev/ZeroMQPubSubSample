@@ -11,9 +11,9 @@ public class Message
     public Key Key { get; }
 
     /// <summary>
-    /// Gets the value of the message.
+    /// Gets the payload of the message.
     /// </summary>
-    public string Value { get; }
+    public Payload Value { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Message"/> class.
@@ -24,18 +24,19 @@ public class Message
     /// Thrown when <paramref name="value"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
-    /// Thrown when <paramref name="value"/> is empty or contains only whitespace characters.
+    /// Thrown when <paramref name="value"/> is <c>null</c>.
     /// </exception>
-    public Message(Key key, string value)
+    public Message(Key key, Payload value)
     {
         ArgumentNullException.ThrowIfNull(value);
-
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            throw new ArgumentException("Message Value is empty or contains only whitespaces.", nameof(value));
-        }
 
         Key = key;
         Value = value;
     }
+
+    /// <summary>
+    /// Returns a string that represents the current message.
+    /// </summary>
+    /// <returns>A string that includes the message key and value.</returns>
+    public override string ToString() => $"Message [Key={Key}, Value={Value.Value}]";
 }

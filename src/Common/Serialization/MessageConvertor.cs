@@ -17,7 +17,7 @@ public static class MessageConvertor
     {
         ArgumentNullException.ThrowIfNull(msg);
 
-        return new Domain.Message(new(msg.Key), msg.Value);
+        return new Domain.Message(new(msg.Key), new(msg.Value));
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public static class MessageConvertor
         return new Message
         {
             Key = msg.Key.Id,
-            Value = msg.Value
+            Value = msg.Value.Value
         };
     }
 }

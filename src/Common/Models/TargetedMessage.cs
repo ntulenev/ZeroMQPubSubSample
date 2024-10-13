@@ -23,7 +23,7 @@ public sealed class TargetedMessage : Message
     /// <exception cref="ArgumentNullException">
     /// Thrown when <paramref name="destination"/> is <c>null</c>.
     /// </exception>
-    public TargetedMessage(Key key, string value, Destination destination) : base(key, value)
+    public TargetedMessage(Key key, Payload value, Destination destination) : base(key, value)
     {
         ArgumentNullException.ThrowIfNull(destination);
         Destination = destination;
