@@ -31,5 +31,10 @@ public sealed class Destination
 
         Route = route;
     }
+
+    public override string ToString()
+    {
+        return Route;
+    }
 }
 
