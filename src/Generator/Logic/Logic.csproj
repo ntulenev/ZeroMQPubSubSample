@@ -7,8 +7,8 @@
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	<Platform>x64</Platform>
 	<Platforms>x64</Platforms>
-    <RootNamespace>ZeroMQPubSubSample.Processor.Abstractions</RootNamespace>
-    <AssemblyName>ZeroMQPubSubSample.Processor.Abstractions</AssemblyName>
+    <RootNamespace>ZeroMQPubSubSample.Generator.Logic</RootNamespace>
+    <AssemblyName>ZeroMQPubSubSample.Generator.Logic</AssemblyName>
 	<NuGetAudit>true</NuGetAudit>
 	<NuGetAuditMode>all</NuGetAuditMode>
 	<NuGetAuditLevel>low</NuGetAuditLevel>
