@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 
 using ZeroMQPubSubSample.Common.Serialization;
 using ZeroMQPubSubSample.Generator.Abstractions;
-using ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 using Domain = ZeroMQPubSubSample.Common.Models;
 
@@ -24,24 +23,14 @@ public class MessageSender : IMessageSender, IDisposable
     /// </summary>
     /// <param name="logger">Logger.</param>
     /// <param name="options">Config params.</param>
-    public MessageSender(
-                         ILogger<MessageSender> logger,
-                         IOptions<MessageSenderConfiguration> options)
+    public MessageSender(IDestinationSender sender,
+                         ILogger<MessageSender> logger)
     {
+        ArgumentNullException.ThrowIfNull(sender);
         ArgumentNullException.ThrowIfNull(logger);
-        ArgumentNullException.ThrowIfNull(options);
-
-        if (options.Value is null)
-        {
-            throw new ArgumentException("Options is not set.", nameof(options));
-        }
 
         _logger = logger;
-        _config = options.Value;
-
-        _pubSocket = new PublisherSocket();
-        _pubSocket.Options.SendHighWatermark = _config.SendHighWatermark;
-        _pubSocket.Bind(_config.Address);
+        _sender = sender;
 
         _logger.LogDebug("MessageSender created.");
     }
@@ -67,12 +56,11 @@ public class MessageSender : IMessageSender, IDisposable
     {
         _logger.LogDebug("Serializing message");
         var payload = Serialize(message);
-        _logger.LogDebug("Sending raw message {data} to {address} / {destination}.",
-               payload, _config.Address, message.Destination);
-        // TODO Add wrapper to add abstract with putting route and payload
-        _pubSocket.SendMoreFrame(message.Destination.Route).SendFrame(payload);
-        _logger.LogDebug("Message {data} has been sent to {address} / {destination}.",
-               payload, _config.Address, message.Destination);
+        _logger.LogDebug("Sending raw message {data} to {destination}.",
+               payload, message.Destination);
+        _sender.Send(message.Destination, payload);
+        _logger.LogDebug("Message {data} has been sent to {destination}.",
+               payload, message.Destination);
     }
 
     private static string Serialize(Domain.Message message)
@@ -81,6 +69,7 @@ public class MessageSender : IMessageSender, IDisposable
         var transport = message.ToTransport();
         return JsonConvert.SerializeObject(transport);
     }
+
 
     /// <inheritdoc/>
     public void Dispose()
@@ -100,22 +89,18 @@ public class MessageSender : IMessageSender, IDisposable
 
     protected void ThrowIfDisposed()
     {
-        if (_isDisposed)
-        {
-            throw new ObjectDisposedException(GetType().FullName);
-        }
+        ObjectDisposedException.ThrowIf(_isDisposed,this);
     }
 
     protected virtual void Dispose(bool disposing)
     {
         if (disposing)
         {
-            _pubSocket.Dispose();
+            _sender.Dispose();
         }
     }
 
     private readonly ILogger _logger;
-    private readonly MessageSenderConfiguration _config;
-    private readonly PublisherSocket _pubSocket;
+    private readonly IDestinationSender _sender;
     private bool _isDisposed;
 }

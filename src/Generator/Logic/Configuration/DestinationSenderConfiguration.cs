@@ -1,9 +1,9 @@
 ﻿namespace ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 /// <summary>
-/// Configuration for <see cref="MessageSender"/>.
+/// Configuration for <see cref="DestinationSender/>.
 /// </summary>
-public sealed class MessageSenderConfiguration
+public sealed class DestinationSenderConfiguration
 {
     /// <summary>
     /// Limit on the maximum number of outstanding messages ØMQ shall queue in memory.

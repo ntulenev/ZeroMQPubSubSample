@@ -3,14 +3,14 @@
 namespace ZeroMQPubSubSample.Generator.Logic.Configuration.Validation;
 
 /// <summary>
-/// Validator for <see cref="MessageSenderConfiguration"/>.
+/// Validator for <see cref="DestinationSenderConfiguration"/>.
 /// </summary>
-public sealed class MessageSenderConfigurationValidator : IValidateOptions<MessageSenderConfiguration>
+public sealed class DestinationSenderConfigurationValidator : IValidateOptions<DestinationSenderConfiguration>
 {
     /// <summary>
-    /// Validates <see cref="MessageSenderConfiguration"/>.
+    /// Validates <see cref="DestinationSenderConfiguration"/>.
     /// </summary>
-    public ValidateOptionsResult Validate(string? name, MessageSenderConfiguration options)
+    public ValidateOptionsResult Validate(string? name, DestinationSenderConfiguration options)
     {
         if (options is null)
         {

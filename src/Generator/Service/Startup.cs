@@ -18,12 +18,13 @@ public sealed class Startup(IConfiguration Configuration)
         services.AddSingleton<IMessageMemoryChannel, MessageMemoryChannel>();
         services.AddSingleton<IMemoryChannelProcessor, MemoryChannelProcessor>();
         services.AddSingleton<IMessageSender, MessageSender>();
+        services.AddSingleton<IDestinationSender, DestinationSender>();
 
         services.Configure<MessageMemoryChannelConfiguration>(Configuration.GetSection(nameof(MessageMemoryChannelConfiguration)));
-        services.Configure<MessageSenderConfiguration>(Configuration.GetSection(nameof(MessageSenderConfiguration)));
+        services.Configure<DestinationSenderConfiguration>(Configuration.GetSection(nameof(DestinationSenderConfiguration)));
 
         services.AddSingleton<IValidateOptions<MessageMemoryChannelConfiguration>, MessageMemoryChannelConfigurationValidator>();
-        services.AddSingleton<IValidateOptions<MessageSenderConfiguration>, MessageSenderConfigurationValidator>();
+        services.AddSingleton<IValidateOptions<DestinationSenderConfiguration>, DestinationSenderConfigurationValidator>();
 
         services.AddSingleton<IValidateOptions<DataGeneratorConfiguration>, DataGeneratorConfigurationValidator>();
 
