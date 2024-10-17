@@ -7,8 +7,22 @@ using ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 namespace ZeroMQPubSubSample.Generator.Logic;
 
+/// <summary>
+/// Implementation for <see cref="IDestinationSender"/> that sends messages to a specified destination
+/// using a publisher socket.
+/// </summary>
 public sealed class DestinationSender : IDestinationSender
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DestinationSender"/> class.
+    /// </summary>
+    /// <param name="configuration">
+    /// The configuration settings for the <see cref="DestinationSender"/>, 
+    /// provided as an <see cref="IOptions{TOptions}"/> of <see cref="DestinationSenderConfiguration"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown if <paramref name="configuration"/> is <c>null</c>.
+    /// </exception>
     public DestinationSender(
         IOptions<DestinationSenderConfiguration> configuration)
     {
@@ -19,6 +33,13 @@ public sealed class DestinationSender : IDestinationSender
         _pubSocket.Bind(configuration.Value.Address);
     }
 
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown if <paramref name="destination"/> or <paramref name="message"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// Thrown if the sender is disposed before the message is sent.
+    /// </exception>
     public void Send(Destination destination, string message)
     {
         ArgumentNullException.ThrowIfNull(destination);
@@ -42,6 +63,9 @@ public sealed class DestinationSender : IDestinationSender
         }
     }
 
+    /// <summary>
+    /// Disposes of the resources used by this instance of <see cref="DestinationSender"/>.
+    /// </summary>
     public void Dispose()
     {
         if (_isDisposed)
