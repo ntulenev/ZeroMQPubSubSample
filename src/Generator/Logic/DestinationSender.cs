@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NetMQ;
 using NetMQ.Sockets;
 using ZeroMQPubSubSample.Common.Models;
@@ -11,7 +12,7 @@ namespace ZeroMQPubSubSample.Generator.Logic;
 /// Implementation for <see cref="IDestinationSender"/> that sends messages to a specified destination
 /// using a publisher socket.
 /// </summary>
-public sealed class DestinationSender : IDestinationSender
+public sealed class DestinationSender : IDestinationSender<Message>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DestinationSender"/> class.
@@ -24,13 +25,19 @@ public sealed class DestinationSender : IDestinationSender
     /// Thrown if <paramref name="configuration"/> is <c>null</c>.
     /// </exception>
     public DestinationSender(
-        IOptions<DestinationSenderConfiguration> configuration)
+        IOptions<DestinationSenderConfiguration> configuration, 
+        ILogger<DestinationSender> logger,
+        ISerializer<Message, string> serializer)
     {
         ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(serializer);
 
         _pubSocket = new PublisherSocket();
         _pubSocket.Options.SendHighWatermark = configuration.Value.SendHighWatermark;
         _pubSocket.Bind(configuration.Value.Address);
+        _serializer = serializer;
+        _logger = logger;
     }
 
     /// <inheritdoc/>
@@ -40,14 +47,22 @@ public sealed class DestinationSender : IDestinationSender
     /// <exception cref="ObjectDisposedException">
     /// Thrown if the sender is disposed before the message is sent.
     /// </exception>
-    public void Send(Destination destination, string message)
+    public void Send(Destination destination, Message message)
     {
         ArgumentNullException.ThrowIfNull(destination);
         ArgumentNullException.ThrowIfNull(message);
 
         ThrowIfDisposed();
 
-        _pubSocket.SendMoreFrame(destination.Route).SendFrame(message);
+        var payload = _serializer.Serialize(message);
+
+        _logger.LogDebug("Sending raw message {data} to {destination}.", payload, destination);
+
+
+        _pubSocket.SendMoreFrame(destination.Route)
+                  .SendFrame(payload);
+
+        _logger.LogDebug("Message {data} has been sent to {destination}.", payload, destination);
     }
 
     private void ThrowIfDisposed()
@@ -79,6 +94,8 @@ public sealed class DestinationSender : IDestinationSender
         GC.SuppressFinalize(this);
     }
 
+    private readonly ILogger _logger;
     private readonly PublisherSocket _pubSocket;
+    private readonly ISerializer<Message,string> _serializer;
     private bool _isDisposed;
 }

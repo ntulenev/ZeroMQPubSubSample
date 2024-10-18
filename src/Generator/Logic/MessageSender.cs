@@ -1,12 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-using NetMQ;
-using NetMQ.Sockets;
-
-using Newtonsoft.Json;
-
-using ZeroMQPubSubSample.Common.Serialization;
 using ZeroMQPubSubSample.Generator.Abstractions;
 
 using Domain = ZeroMQPubSubSample.Common.Models;
@@ -23,7 +16,7 @@ public class MessageSender : IMessageSender, IDisposable
     /// </summary>
     /// <param name="logger">Logger.</param>
     /// <param name="options">Config params.</param>
-    public MessageSender(IDestinationSender sender,
+    public MessageSender(IDestinationSender<Domain.Message> sender,
                          ILogger<MessageSender> logger)
     {
         ArgumentNullException.ThrowIfNull(sender);
@@ -54,22 +47,8 @@ public class MessageSender : IMessageSender, IDisposable
 
     private void SendMessage(Domain.TargetedMessage message)
     {
-        _logger.LogDebug("Serializing message");
-        var payload = Serialize(message);
-        _logger.LogDebug("Sending raw message {data} to {destination}.",
-               payload, message.Destination);
-        _sender.Send(message.Destination, payload);
-        _logger.LogDebug("Message {data} has been sent to {destination}.",
-               payload, message.Destination);
+        _sender.Send(message.Destination, message);
     }
-
-    private static string Serialize(Domain.Message message)
-    {
-        //TODO Move to separate Serializer dependency
-        var transport = message.ToTransport();
-        return JsonConvert.SerializeObject(transport);
-    }
-
 
     /// <inheritdoc/>
     public void Dispose()
@@ -101,6 +80,6 @@ public class MessageSender : IMessageSender, IDisposable
     }
 
     private readonly ILogger _logger;
-    private readonly IDestinationSender _sender;
+    private readonly IDestinationSender<Domain.Message> _sender;
     private bool _isDisposed;
 }

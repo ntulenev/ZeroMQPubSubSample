@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-
+using ZeroMQPubSubSample.Common.Models;
 using ZeroMQPubSubSample.Generator.Abstractions;
 using ZeroMQPubSubSample.Generator.Logic;
 using ZeroMQPubSubSample.Generator.Logic.Configuration;
@@ -18,7 +18,8 @@ public sealed class Startup(IConfiguration Configuration)
         services.AddSingleton<IMessageMemoryChannel, MessageMemoryChannel>();
         services.AddSingleton<IMemoryChannelProcessor, MemoryChannelProcessor>();
         services.AddSingleton<IMessageSender, MessageSender>();
-        services.AddSingleton<IDestinationSender, DestinationSender>();
+        services.AddSingleton<IDestinationSender<Message>, DestinationSender>();
+        services.AddSingleton<ISerializer<Message, string>, Serializer>();
 
         services.Configure<MessageMemoryChannelConfiguration>(Configuration.GetSection(nameof(MessageMemoryChannelConfiguration)));
         services.Configure<DestinationSenderConfiguration>(Configuration.GetSection(nameof(DestinationSenderConfiguration)));

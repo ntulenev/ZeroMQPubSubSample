@@ -2,21 +2,18 @@
 
 namespace ZeroMQPubSubSample.Generator.Abstractions;
 
+
 /// <summary>
-/// Represents a sender that can send messages to a specified destination.
+/// Defines an interface for sending messages of type <typeparamref name="T"/> to a specified <see cref="Destination"/>.
 /// </summary>
-public interface IDestinationSender : IDisposable
+/// <typeparam name="T">The type of message to be sent.</typeparam>
+public interface IDestinationSender<T> : IDisposable
 {
     /// <summary>
-    /// Sends a message to the specified destination.
+    /// Sends a message of type <typeparamref name="T"/> to the specified <see cref="Destination"/>.
     /// </summary>
-    /// <param name="destination">The destination to which the message should be sent.</param>
-    /// <param name="message">The message to send to the destination.</param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="destination"/> or <paramref name="message"/> is <c>null</c>.
-    /// </exception>
-    /// <exception cref="ObjectDisposedException">
-    /// Thrown if the method is called after the sender has been disposed.
-    /// </exception>
-    void Send(Destination destination, string message);
+    /// <param name="destination">The destination where the message should be sent.</param>
+    /// <param name="message">The message to send.</param>
+    void Send(Destination destination, T message);
 }
+
