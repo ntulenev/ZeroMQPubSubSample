@@ -32,6 +32,12 @@ public sealed class Destination
         Route = route;
     }
 
+    /// <summary>
+    /// Returns a string representation of the current <see cref="Destination"/> instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="string"/> that represents the route of the destination.
+    /// </returns>
     public override string ToString()
     {
         return Route;
