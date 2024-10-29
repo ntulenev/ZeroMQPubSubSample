@@ -63,7 +63,7 @@ The **Data Processing Service** subscribes to the data published by the Data Gen
 
 ```json
 {
-  "MessageReceiverConfiguration": {
+  "DestinationSenderConfiguration": {
     "Address": "tcp://localhost:12345",
     "ReceiveHighWatermark": 100,
     "Topic": "Main"
