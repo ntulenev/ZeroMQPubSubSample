@@ -1,4 +1,4 @@
-﻿using System.Threading.Channels;
+using System.Threading.Channels;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -36,16 +36,12 @@ public sealed class MessageMemoryChannel : IMessageMemoryChannel
     }
 
     /// <inheritdoc/>
-    public async ValueTask WriteAsync(TargetedMessage message, CancellationToken ct)
-    {
+    public async ValueTask WriteAsync(TargetedMessage message, CancellationToken ct) =>
         await _channel.Writer.WriteAsync(message, ct).ConfigureAwait(false);
-    }
 
     /// <inheritdoc/>
-    public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken ct)
-    {
-        return _channel.Reader.ReadAllAsync(ct);
-    }
+    public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken cancellationToken) =>
+        _channel.Reader.ReadAllAsync(cancellationToken);
 
     private readonly Channel<TargetedMessage> _channel;
     private readonly ILogger _logger;
