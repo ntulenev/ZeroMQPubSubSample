@@ -8,7 +8,7 @@ using ZeroMQPubSubSample.Processor.Service.Services;
 
 namespace ZeroMQPubSubSample.Processor.Service;
 
-public class Startup(IConfiguration Configuration)
+internal sealed class Startup(IConfiguration Configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -24,7 +24,15 @@ public class Startup(IConfiguration Configuration)
         services.AddHostedService<ReceiverService>();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    /// <summary>
+    /// Configures the application's request pipeline with routing and health check endpoints.
+    /// </summary>
+    /// <remarks>This method adds routing middleware and maps a health check endpoint at '/hc'. It should be
+    /// called during application startup to ensure proper middleware configuration.</remarks>
+    /// <param name="app">The application builder used to configure the HTTP request pipeline.</param>
+#pragma warning disable CA1822 // Mark members as static
+    public void Configure(IApplicationBuilder app)
+#pragma warning restore CA1822 // Mark members as static
     {
         app.UseRouting();
         app.UseHealthChecks("/hc");
