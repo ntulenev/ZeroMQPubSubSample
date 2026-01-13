@@ -1,20 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	<Platform>x64</Platform>
-	<Platforms>x64</Platforms>
-    <RootNamespace>ZeroMQPubSubSample.Processor.Service</RootNamespace>
-    <AssemblyName>ZeroMQPubSubSample.Processor.Service</AssemblyName>
-  	<NuGetAudit>true</NuGetAudit>
-	<NuGetAuditMode>all</NuGetAuditMode>
-	<NuGetAuditLevel>low</NuGetAuditLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Models\Models.csproj" />
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
-    <ProjectReference Include="..\Logic\Logic.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Platform>x64</Platform>
+		<Platforms>x64</Platforms>
+		<RootNamespace>ZeroMQPubSubSample.Processor.Service</RootNamespace>
+		<AssemblyName>ZeroMQPubSubSample.Processor.Service</AssemblyName>
+		<NuGetAudit>true</NuGetAudit>
+		<NuGetAuditMode>all</NuGetAuditMode>
+		<NuGetAuditLevel>low</NuGetAuditLevel>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
+		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<NoWarn>CS1591,IDE0058,CA1812</NoWarn>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\Common\Models\Models.csproj" />
+		<ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+		<ProjectReference Include="..\Logic\Logic.csproj" />
+	</ItemGroup>
 </Project>
