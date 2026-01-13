@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
 using ZeroMQPubSubSample.Generator.Abstractions;
 
@@ -39,12 +39,12 @@ public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
             {
                 try
                 {
-                    _logger.LogDebug("Sending message {message}", msg);
+                    _logger.LogDebug("Sending message {Message}", msg);
                     await _sender.SendMessageAsync(msg, ct).ConfigureAwait(false);
                 }
                 catch (Exception ex) when (ex is not OperationCanceledException)
                 {
-                    _logger.LogError(ex, "Error on sending message {message}", msg);
+                    _logger.LogError(ex, "Error on sending message {Message}", msg);
                     throw;
                 }
             }
