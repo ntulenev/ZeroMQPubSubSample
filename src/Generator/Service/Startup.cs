@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Options;
+
 using ZeroMQPubSubSample.Common.Models;
 using ZeroMQPubSubSample.Generator.Abstractions;
 using ZeroMQPubSubSample.Generator.Logic;
@@ -8,7 +9,7 @@ using ZeroMQPubSubSample.Generator.Service.Services;
 
 namespace ZeroMQPubSubSample.Generator.Service;
 
-public sealed class Startup(IConfiguration Configuration)
+internal sealed class Startup(IConfiguration Configuration)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -36,11 +37,11 @@ public sealed class Startup(IConfiguration Configuration)
     private IEnumerable<IDataGenerator> CreateGenerators(IServiceProvider serviceProvider)
     {
         List<IDataGenerator> generators = [];
-        IConfigurationSection generatorConfigs = Configuration.GetSection("Generators");
+        var generatorConfigs = Configuration.GetSection("Generators");
 
         var validator = serviceProvider.GetRequiredService<IValidateOptions<DataGeneratorConfiguration>>();
 
-        foreach (IConfigurationSection generatorConfig in generatorConfigs.GetChildren())
+        foreach (var generatorConfig in generatorConfigs.GetChildren())
         {
             var configData = generatorConfig.Get<DataGeneratorConfiguration>()!;
             var options = Options.Create(configData);
@@ -61,7 +62,15 @@ public sealed class Startup(IConfiguration Configuration)
         return generators;
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    /// <summary>
+    /// Configures the application's request pipeline and health check endpoint.
+    /// </summary>
+    /// <remarks>This method sets up routing and enables a health check endpoint at '/hc'. It should be called
+    /// during application startup to ensure proper middleware configuration.</remarks>
+    /// <param name="app">The application builder used to configure the HTTP request pipeline.</param>
+#pragma warning disable CA1822 // Mark members as static
+    public void Configure(IApplicationBuilder app)
+#pragma warning restore CA1822 // Mark members as static
     {
         app.UseRouting();
         app.UseHealthChecks("/hc");
