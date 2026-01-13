@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
 using NetMQ;
 using NetMQ.Sockets;
+
 using ZeroMQPubSubSample.Common.Models;
 using ZeroMQPubSubSample.Generator.Abstractions;
 using ZeroMQPubSubSample.Generator.Logic.Configuration;
@@ -9,23 +11,23 @@ using ZeroMQPubSubSample.Generator.Logic.Configuration;
 namespace ZeroMQPubSubSample.Generator.Logic;
 
 /// <summary>
-/// Implementation for <see cref="IDestinationSender"/> that sends messages to a specified destination
+/// Implementation for <see cref="IDestinationSender{T}"/> that sends messages to a specified destination
 /// using a publisher socket.
 /// </summary>
 public sealed class DestinationSender : IDestinationSender<Message>
 {
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="DestinationSender"/> class.
+    /// Initializes a new instance of the DestinationSender class with the specified configuration, logger, and message
+    /// serializer.
     /// </summary>
-    /// <param name="configuration">
-    /// The configuration settings for the <see cref="DestinationSender"/>, 
-    /// provided as an <see cref="IOptions{TOptions}"/> of <see cref="DestinationSenderConfiguration"/>.
-    /// </param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown if <paramref name="configuration"/> is <c>null</c>.
-    /// </exception>
+    /// <param name="configuration">The configuration options for the destination sender,
+    /// including address and socket settings. Cannot be null.</param>
+    /// <param name="logger">The logger used to record operational and error information. Cannot be null.</param>
+    /// <param name="serializer">The serializer used to convert Message objects to string representations for transmission.
+    /// Cannot be null.</param>
     public DestinationSender(
-        IOptions<DestinationSenderConfiguration> configuration, 
+        IOptions<DestinationSenderConfiguration> configuration,
         ILogger<DestinationSender> logger,
         ISerializer<Message, string> serializer)
     {
@@ -56,19 +58,16 @@ public sealed class DestinationSender : IDestinationSender<Message>
 
         var payload = _serializer.Serialize(message);
 
-        _logger.LogDebug("Sending raw message {data} to {destination}.", payload, destination);
+        _logger.LogDebug("Sending raw message {Data} to {Destination}.", payload, destination);
 
 
         _pubSocket.SendMoreFrame(destination.Route)
                   .SendFrame(payload);
 
-        _logger.LogDebug("Message {data} has been sent to {destination}.", payload, destination);
+        _logger.LogDebug("Message {Data} has been sent to {Destination}.", payload, destination);
     }
 
-    private void ThrowIfDisposed()
-    {
-        ObjectDisposedException.ThrowIf(_isDisposed, this);
-    }
+    private void ThrowIfDisposed() => ObjectDisposedException.ThrowIf(_isDisposed, this);
 
     private void Dispose(bool disposing)
     {
@@ -96,6 +95,6 @@ public sealed class DestinationSender : IDestinationSender<Message>
 
     private readonly ILogger _logger;
     private readonly PublisherSocket _pubSocket;
-    private readonly ISerializer<Message,string> _serializer;
+    private readonly ISerializer<Message, string> _serializer;
     private bool _isDisposed;
 }
