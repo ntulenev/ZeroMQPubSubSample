@@ -1,4 +1,4 @@
-﻿using ZeroMQPubSubSample.Generator.Abstractions;
+using ZeroMQPubSubSample.Generator.Abstractions;
 
 namespace ZeroMQPubSubSample.Generator.Service.Services;
 
@@ -6,7 +6,7 @@ namespace ZeroMQPubSubSample.Generator.Service.Services;
 /// Service responsible for coordinating data generation using multiple <see cref="IDataGenerator"/> instances.
 /// Implements the <see cref="IHostedService"/> interface to start and stop the service within a host.
 /// </summary>
-public sealed class GenerationService : IHostedService
+internal sealed class GenerationService : IHostedService
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="GenerationService"/> class.
@@ -47,6 +47,7 @@ public sealed class GenerationService : IHostedService
     /// </remarks>
     public Task StartAsync(CancellationToken cancellationToken)
     {
+#pragma warning disable CA1031 // Do not catch general exception types
         try
         {
             var generationTasks = _generators
@@ -56,8 +57,10 @@ public sealed class GenerationService : IHostedService
                                             )
                                );
 
+#pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
             _ = generationTasks.Select(x =>
                         x.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted));
+#pragma warning restore CA2008 // Do not create tasks without passing a TaskScheduler
 
             _stopper = Task.WhenAll(generationTasks);
         }
@@ -66,6 +69,7 @@ public sealed class GenerationService : IHostedService
             _logger?.LogCritical(ex, "Error starting GenerationService.");
             _hostApplicationLifetime.StopApplication();
         }
+#pragma warning restore CA1031 // Do not catch general exception types
 
         return Task.CompletedTask;
     }
@@ -82,6 +86,7 @@ public sealed class GenerationService : IHostedService
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Stopping service.");
+#pragma warning disable CA1031 // Do not catch general exception types
         try
         {
             await _stopper.ConfigureAwait(false);
@@ -94,6 +99,7 @@ public sealed class GenerationService : IHostedService
         {
             _logger.LogError(ex, "Error on stopping service");
         }
+#pragma warning restore CA1031 // Do not catch general exception types
     }
 
     private readonly ILogger _logger;
