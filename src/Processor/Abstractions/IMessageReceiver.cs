@@ -1,4 +1,4 @@
-﻿using ZeroMQPubSubSample.Common.Models;
+using ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Processor.Abstractions;
 
@@ -12,5 +12,5 @@ public interface IMessageReceiver
     /// </summary>
     /// <param name="ct">A <see cref="CancellationToken"/> to observe while waiting for the operation to complete.</param>
     /// <returns>An <see cref="IAsyncEnumerable{Message}"/> representing the stream of incoming messages.</returns>
-    public IAsyncEnumerable<Message> ReceiveAsync(CancellationToken ct);
+    IAsyncEnumerable<Message> ReceiveAsync(CancellationToken ct);
 }
