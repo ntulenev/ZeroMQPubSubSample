@@ -1,4 +1,4 @@
-﻿using ZeroMQPubSubSample.Common.Models;
+using ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Generator.Abstractions;
 
@@ -13,7 +13,7 @@ public interface IMessageMemoryChannel
     /// <param name="message">The <see cref="TargetedMessage"/> to be added to the queue.</param>
     /// <param name="ct">A <see cref="CancellationToken"/> used to cancel the operation if needed.</param>
     /// <returns>A <see cref="ValueTask"/> representing the asynchronous write operation.</returns>
-    public ValueTask WriteAsync(TargetedMessage message, CancellationToken ct);
+    ValueTask WriteAsync(TargetedMessage message, CancellationToken ct);
 
     /// <summary>
     /// Asynchronously reads all messages from the in-memory queue as an asynchronous stream.
@@ -21,6 +21,6 @@ public interface IMessageMemoryChannel
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the operation if needed.</param>
     /// <returns>An <see cref="IAsyncEnumerable{T}"/> that asynchronously iterates over all 
     /// <see cref="TargetedMessage"/> items in the queue.</returns>
-    public IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken cancellationToken = default);
+    IAsyncEnumerable<TargetedMessage> ReadAllAsync(CancellationToken cancellationToken = default);
 }
 
