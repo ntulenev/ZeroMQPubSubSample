@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using ZeroMQPubSubSample.Common.Models;
@@ -51,7 +51,7 @@ public sealed class DataGenerator : IDataGenerator
 
                 var msg = CreateMessage();
 
-                _logger.LogInformation("Creating new data {message}", msg);
+                _logger.LogInformation("Creating new data {Message}", msg);
 
                 await _channel.WriteAsync(msg, ct).ConfigureAwait(false);
             }
