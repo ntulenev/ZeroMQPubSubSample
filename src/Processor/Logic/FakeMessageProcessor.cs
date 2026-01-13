@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
 using ZeroMQPubSubSample.Common.Models;
 using ZeroMQPubSubSample.Processor.Abstractions;
 
-namespace ZeroMQPubSubSample.Processor.Logic.Configuration;
+namespace ZeroMQPubSubSample.Processor.Logic;
 
 /// <summary>
 /// Stub for processing messages.
@@ -19,11 +19,17 @@ public sealed class FakeMessageProcessor : IMessageProcessor
         _logger.LogDebug("FakeMessageProcessor created.");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public Task ProcessAsync(Message message, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(message);
 
-        _logger.LogInformation("Processing {message}", message);
+        _logger.LogInformation("Processing {Message}", message);
         return Task.CompletedTask;
     }
 
