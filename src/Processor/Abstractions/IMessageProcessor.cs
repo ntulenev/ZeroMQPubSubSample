@@ -1,4 +1,4 @@
-﻿using ZeroMQPubSubSample.Common.Models;
+using ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Processor.Abstractions;
 
@@ -13,5 +13,5 @@ public interface IMessageProcessor
     /// <param name="message">The <see cref="Message"/> to be processed.</param>
     /// <param name="ct">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public Task ProcessAsync(Message message, CancellationToken ct);
+    Task ProcessAsync(Message message, CancellationToken ct);
 }
