@@ -1,4 +1,4 @@
-﻿namespace ZeroMQPubSubSample.Common.Models;
+namespace ZeroMQPubSubSample.Common.Models;
 
 /// <summary>
 /// Represents a destination with a specific route.
@@ -38,9 +38,6 @@ public sealed class Destination
     /// <returns>
     /// A <see cref="string"/> that represents the route of the destination.
     /// </returns>
-    public override string ToString()
-    {
-        return Route;
-    }
+    public override string ToString() => Route;
 }
 
