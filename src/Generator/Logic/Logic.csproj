@@ -1,31 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFramework>net10.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	<Platform>x64</Platform>
-	<Platforms>x64</Platforms>
-    <RootNamespace>ZeroMQPubSubSample.Generator.Logic</RootNamespace>
-    <AssemblyName>ZeroMQPubSubSample.Generator.Logic</AssemblyName>
-	<NuGetAudit>true</NuGetAudit>
-	<NuGetAuditMode>all</NuGetAuditMode>
-	<NuGetAuditLevel>low</NuGetAuditLevel>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Platform>x64</Platform>
+		<Platforms>x64</Platforms>
+		<RootNamespace>ZeroMQPubSubSample.Generator.Logic</RootNamespace>
+		<AssemblyName>ZeroMQPubSubSample.Generator.Logic</AssemblyName>
+		<NuGetAudit>true</NuGetAudit>
+		<NuGetAuditMode>all</NuGetAuditMode>
+		<NuGetAuditLevel>low</NuGetAuditLevel>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
-    <PackageReference Include="NetMQ" Version="4.0.2.2" />
-    <PackageReference Include="System.Drawing.Common" Version="10.0.1" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
+		<PackageReference Include="NetMQ" Version="4.0.2.2" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.1" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Models\Models.csproj" />
-    <ProjectReference Include="..\..\Common\Serialization\Serialization.csproj" />
-    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Common\Models\Models.csproj" />
+		<ProjectReference Include="..\..\Common\Serialization\Serialization.csproj" />
+		<ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<NoWarn>
+			CA1873
+		</NoWarn>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
+		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 
 </Project>
