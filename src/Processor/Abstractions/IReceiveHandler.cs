@@ -1,4 +1,4 @@
-﻿namespace ZeroMQPubSubSample.Processor.Abstractions;
+namespace ZeroMQPubSubSample.Processor.Abstractions;
 
 /// <summary>
 /// Defines a handler for receiving and processing tasks.
@@ -10,5 +10,5 @@ public interface IReceiveHandler
     /// </summary>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public Task HandleAsync(CancellationToken cancellationToken);
+    Task HandleAsync(CancellationToken cancellationToken);
 }
