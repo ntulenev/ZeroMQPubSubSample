@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 using ZeroMQPubSubSample.Processor.Abstractions;
@@ -13,7 +13,6 @@ using NetMQ;
 
 using Newtonsoft.Json;
 
-using Transport = ZeroMQPubSubSample.Common.Serialization;
 using Domain = ZeroMQPubSubSample.Common.Models;
 
 namespace ZeroMQPubSubSample.Processor.Logic;
@@ -65,7 +64,7 @@ public sealed class MessageReceiver : IMessageReceiver
         using var subSocket = CreateSocket();
 
         var stopperTcs = new TaskCompletionSource<Domain.Message>(TaskCreationOptions.RunContinuationsAsynchronously);
-        ct.Register(() => stopperTcs.SetCanceled());
+        _ = ct.Register(stopperTcs.SetCanceled);
 
         while (true)
         {
@@ -77,7 +76,7 @@ public sealed class MessageReceiver : IMessageReceiver
                 {
                     var (topic, data) = ReceiveData(subSocket);
 
-                    _logger.LogDebug("Gets raw data '{data}' for topic {topic}.", data, topic);
+                    _logger.LogDebug("Gets raw data '{Data}' for topic {Topic}.", data, topic);
 
                     return Deserialize(data);
                 }
@@ -87,14 +86,14 @@ public sealed class MessageReceiver : IMessageReceiver
                     throw;
                 }
 
-            }, ct), stopperTcs.Task).Unwrap();
+            }, ct), stopperTcs.Task).Unwrap().ConfigureAwait(false);
         }
     }
 
     private static Domain.Message Deserialize(string message)
     {
         //TODO Move to separate dependency
-        var transport = JsonConvert.DeserializeObject<Transport.Message>(message);
+        var transport = JsonConvert.DeserializeObject<Message>(message);
 
         Debug.Assert(transport is not null);
 
