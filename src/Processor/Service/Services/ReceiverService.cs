@@ -1,4 +1,3 @@
-﻿using System.Reflection.Metadata;
 using ZeroMQPubSubSample.Processor.Abstractions;
 
 namespace ZeroMQPubSubSample.Processor.Service.Services;
@@ -7,25 +6,20 @@ namespace ZeroMQPubSubSample.Processor.Service.Services;
 /// Service responsible for receiving and processing messages asynchronously.
 /// Implements the <see cref="IHostedService"/> interface to start and stop the service within a host.
 /// </summary>
-public sealed class ReceiverService : IHostedService
+internal sealed class ReceiverService : IHostedService
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ReceiverService"/> class.
+    /// Initializes a new instance of the ReceiverService class with the specified logger, application lifetime manager,
+    /// and receive handler.
     /// </summary>
-    /// <param name="logger">The logger instance used for logging messages.</param>
-    /// <param name="hostApplicationLifetime">Provides events for the application 
-    /// lifecycle and allows for graceful shutdowns.</param>
-    /// <param name="receiver">The message receiver that retrieves messages asynchronously.</param>
-    /// <param name="processor">The message processor that handles the processing of the received messages.</param>
-    /// <exception cref="ArgumentNullException">
-    /// Thrown when any of the parameters (<paramref name="logger"/>, <paramref name="hostApplicationLifetime"/>, 
-    /// <paramref name="receiver"/>, or <paramref name="processor"/>) is <c>null</c>.
-    /// </exception>
+    /// <param name="logger">The logger used to record informational and error messages for the service. Cannot be null.</param>
+    /// <param name="hostApplicationLifetime">The application lifetime manager that notifies the
+    /// service of application start and stop events. Cannot be null.</param>
+    /// <param name="handler">The handler responsible for processing received messages. Cannot be null.</param>
     public ReceiverService(
         ILogger<ReceiverService> logger,
         IHostApplicationLifetime hostApplicationLifetime,
-        IReceiveHandler handler
-    )
+        IReceiveHandler handler)
     {
         ArgumentNullException.ThrowIfNull(logger);
         ArgumentNullException.ThrowIfNull(hostApplicationLifetime);
@@ -49,19 +43,24 @@ public sealed class ReceiverService : IHostedService
     /// </remarks>
     public Task StartAsync(CancellationToken cancellationToken)
     {
+#pragma warning disable CA1031 // Do not catch general exception types
         try
         {
+#pragma warning disable CA2016 // Forward the 'CancellationToken' parameter to methods
             _stopper = Task.Run(async () =>
-            {
-                await _handler.HandleAsync(_hostApplicationLifetime.ApplicationStopping);
-            });
-            _stopper.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted);
+            await _handler.HandleAsync(_hostApplicationLifetime.ApplicationStopping).ConfigureAwait(false));
+#pragma warning restore CA2016 // Forward the 'CancellationToken' parameter to methods
+
+#pragma warning disable CA2008 // Do not create tasks without passing a TaskScheduler
+            _ = _stopper.ContinueWith(x => _hostApplicationLifetime.StopApplication(), TaskContinuationOptions.OnlyOnFaulted);
+#pragma warning restore CA2008 // Do not create tasks without passing a TaskScheduler
         }
         catch (Exception ex)
         {
             _logger?.LogCritical(ex, "Error starting ReceiverService.");
             _hostApplicationLifetime.StopApplication();
         }
+#pragma warning restore CA1031 // Do not catch general exception types
 
         return Task.CompletedTask;
     }
@@ -77,6 +76,7 @@ public sealed class ReceiverService : IHostedService
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Stopping service.");
+#pragma warning disable CA1031 // Do not catch general exception types
         try
         {
             await _stopper.ConfigureAwait(false);
@@ -89,6 +89,7 @@ public sealed class ReceiverService : IHostedService
         {
             _logger.LogError(ex, "Error on stopping service.");
         }
+#pragma warning restore CA1031 // Do not catch general exception types
     }
 
     private readonly ILogger _logger;
