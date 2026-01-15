@@ -9,7 +9,13 @@ using ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 namespace ZeroMQPubSubSample.Generator.Logic;
 
-/// <inheritdoc/>
+/// <summary>
+/// Provides an in-memory message channel for asynchronously writing and reading targeted messages.
+/// </summary>
+/// <remarks>This class implements a bounded channel for message passing within the application. It is typically
+/// used to facilitate communication between producers and consumers in memory, without persistent storage. The channel
+/// capacity is configured via the provided options. This type is not thread-safe for external mutation; concurrent read
+/// and write operations are supported through the channel's own synchronization.</remarks>
 public sealed class MessageMemoryChannel : IMessageMemoryChannel
 {
     /// <summary>
