@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
-using ZeroMQPubSubSample.Generator.Abstractions;
-using ZeroMQPubSubSample.Common.Serialization;
+using System.Globalization;
+using System.Text;
 
+using Newtonsoft.Json;
+
+using ZeroMQPubSubSample.Common.Serialization;
+using ZeroMQPubSubSample.Generator.Abstractions;
 
 using Domain = ZeroMQPubSubSample.Common.Models;
 
@@ -24,7 +27,17 @@ public sealed class Serializer : ISerializer<Domain.Message, string>
         ArgumentNullException.ThrowIfNull(payload);
 
         var transport = payload.ToTransport();
-        return JsonConvert.SerializeObject(transport);
+
+        var sb = new StringBuilder();
+        var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+        using (var jsonWriter = new JsonTextWriter(sw))
+        {
+            _serializer.Serialize(jsonWriter, transport);
+        }
+
+        return sw.ToString();
     }
+
+    private static readonly JsonSerializer _serializer = JsonSerializer.CreateDefault();
 }
 
