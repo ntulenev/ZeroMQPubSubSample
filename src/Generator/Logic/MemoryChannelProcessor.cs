@@ -4,7 +4,12 @@ using ZeroMQPubSubSample.Generator.Abstractions;
 
 namespace ZeroMQPubSubSample.Generator.Logic;
 
-/// <inheritdoc/>
+/// <summary>
+/// Processes messages from an in-memory channel and sends them using the specified message sender.
+/// </summary>
+/// <remarks>This class is typically used to bridge an in-memory message channel with an external message sender,
+/// enabling asynchronous processing and forwarding of messages. Instances of this class are not thread-safe and should
+/// be used on a single processing thread.</remarks>
 public sealed class MemoryChannelProcessor : IMemoryChannelProcessor
 {
     /// <summary>
