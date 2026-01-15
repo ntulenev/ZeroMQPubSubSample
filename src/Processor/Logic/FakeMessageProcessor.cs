@@ -20,11 +20,11 @@ public sealed class FakeMessageProcessor : IMessageProcessor
     }
 
     /// <summary>
-    /// 
+    /// Processes the specified message asynchronously.
     /// </summary>
-    /// <param name="message"></param>
-    /// <param name="ct"></param>
-    /// <returns></returns>
+    /// <param name="message">The message to be processed. Cannot be null.</param>
+    /// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ProcessAsync(Message message, CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(message);
