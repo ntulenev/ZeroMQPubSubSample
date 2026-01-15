@@ -1,4 +1,4 @@
-﻿namespace ZeroMQPubSubSample.Generator.Logic.Configuration;
+namespace ZeroMQPubSubSample.Generator.Logic.Configuration;
 
 /// <summary>
 /// Configuration for <see cref="DataGenerator"/>.
@@ -8,12 +8,12 @@ public sealed class DataGeneratorConfiguration
     /// <summary>
     /// Data generation period.
     /// </summary>
-    public TimeSpan GenerationPeriodSeconds { get; init; }
+    public required TimeSpan GenerationPeriodSeconds { get; init; }
 
     /// <summary>
     /// Data generation task marker.
     /// </summary>
-    public long TaskId { get; init; }
+    public required long TaskId { get; init; }
 
     /// <summary>
     /// Target queue.
