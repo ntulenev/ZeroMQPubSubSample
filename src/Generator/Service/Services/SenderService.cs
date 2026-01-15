@@ -48,10 +48,13 @@ internal sealed class SenderService : IHostedService
     }
 
     /// <summary>
-    /// 
+    /// Asynchronously stops the service, performing any necessary cleanup operations.
     /// </summary>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
+    /// <remarks>If the operation is cancelled via the provided cancellation token, the stop process will be
+    /// aborted without throwing an exception. Any errors encountered during stopping are logged but do not propagate to
+    /// the caller.</remarks>
+    /// <param name="cancellationToken">A cancellation token that can be used to request the stop operation to be cancelled.</param>
+    /// <returns>A task that represents the asynchronous stop operation.</returns>
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Stopping service.");
